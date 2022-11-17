@@ -1,0 +1,76 @@
+<script setup lang="ts">
+import { ref, Ref } from "vue";
+import XSelect from "./inputs/XSelect.vue";
+import XText from "./inputs/XText.vue";
+
+defineProps({
+  configNames: {
+    type: Array,
+    required: true,
+  },
+  selectedConfigName: {
+    type: String,
+    required: true,
+  },
+});
+
+// emit config change and save
+const emits = defineEmits(["config:load", "config:save"]);
+
+const configName: Ref<string> = ref("");
+
+const selectedConfig: Ref<string> = ref("");
+
+const handleLoad = () => {
+  configName.value = selectedConfig.value;
+  emits("config:load", selectedConfig.value);
+};
+
+const handleSave = () => {
+  emits("config:save", configName.value);
+  selectedConfig.value = configName.value;
+};
+</script>
+
+<template>
+  <div>
+    <div>
+      <h1 class="text-2xl font-bold mb-5">Load or save config</h1>
+    </div>
+    <div class="flex flex-col space-y-4">
+      <div class="flex w-full space-x-4">
+        <x-select
+          class="w-full"
+          :modelValue="selectedConfig"
+          label="Saved configs"
+          :options="configNames"
+          @update:modelValue="(newConfigName: string) => (selectedConfig = newConfigName)"
+        ></x-select>
+        <div class="flex items-center">
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-md text-xs shadow-sm hover:shadow-md transition-all"
+            @click="handleLoad"
+          >
+            Load
+          </button>
+        </div>
+      </div>
+      <div class="flex w-full space-x-4">
+        <x-text
+          class="w-full"
+          :modelValue="configName"
+          label="Config name"
+          @update:modelValue="(newConfigName: string) => (configName = newConfigName)"
+        ></x-text>
+        <div class="flex items-center">
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-md text-xs shadow-sm hover:shadow-md transition-all"
+            @click="handleSave"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
