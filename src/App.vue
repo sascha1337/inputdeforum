@@ -2,6 +2,7 @@
 import { ref, Ref } from "vue";
 import FramesConfigComponent from "./components/FramesConfigComponent.vue";
 import GlobalConfigComponent from "./components/GlobalConfigComponent.vue";
+import ConfigGenerator from "./components/ConfigGenerator.vue";
 import SaveConfigs from "./components/SaveConfigs.vue";
 import { LocalStorage } from "./LocalStorage";
 import Config from "./types/Config";
@@ -10,31 +11,26 @@ import Frame from "./types/Frame";
 const config: Ref<Config> = ref(new Config());
 const configNames: Ref<string[]> = ref(LocalStorage.getConfigNames());
 const selectedConfigName: Ref<string> = ref("");
-const frameList: Ref<Frame[]> = ref([]);
 
 const handleConfigChange = (newConfig: Config) => {
   config.value = newConfig;
-  console.log(config);
 };
 
 const handleConfigLoad = (selectedConfigName: string) => {
-  console.log(selectedConfigName);
   config.value = LocalStorage.getConfig(selectedConfigName) ?? new Config();
 };
 
 const handleConfigSave = (newConfigName: string) => {
-  console.log(newConfigName);
   LocalStorage.saveConfig(newConfigName, config.value);
   configNames.value = LocalStorage.getConfigNames();
 };
 
 const handleAddFrame = () => {
-  frameList.value.push(new Frame());
+  config.value.frames.push(new Frame());
 };
 
 const handleFrameListChange = (newFrameList: Frame[]) => {
-  frameList.value = newFrameList;
-  console.log(frameList);
+  config.value.frames = newFrameList;
 };
 </script>
 
@@ -51,9 +47,11 @@ const handleFrameListChange = (newFrameList: Frame[]) => {
       @update:configValue="handleConfigChange"
     />
     <FramesConfigComponent
-      :frameList="frameList"
+      :frameList="config.frames"
       @update:addFrame="handleAddFrame"
       @update:frameList="handleFrameListChange"
     />
+
+    <ConfigGenerator :config="config" />
   </div>
 </template>

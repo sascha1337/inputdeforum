@@ -29,7 +29,7 @@ const handleNumberChange = (
   index: number,
   key: NumberFrameKeys
 ) => {
-  (props.frameList[index] as Frame)[key] = Number(value);
+  (props.frameList[index] as Frame)[key] = value;
   emit("update:frameList", props.frameList);
 };
 
@@ -80,7 +80,7 @@ const handleAddFrame = () => {
           :modelValue="(frame as Frame).angle"
           :min="0"
           :max="360"
-          :step="1"
+          :step="0.001"
           @update:modelValue="(newAngle: number) => (handleNumberChange(newAngle, index, 'angle'))"
         ></XNumber>
 

@@ -4,7 +4,7 @@ defineEmits(["update:modelValue"]);
 defineProps({
   modelValue: {
     type: String,
-    required: true,
+    required: false,
   },
   label: {
     type: String,

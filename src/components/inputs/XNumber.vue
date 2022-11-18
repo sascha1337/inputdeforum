@@ -1,10 +1,10 @@
 <script setup lang="ts">
-defineEmits(["update:modelValue"]);
+const emits = defineEmits(["update:modelValue"]);
 
 defineProps({
   modelValue: {
     type: Number,
-    required: true,
+    required: false,
   },
   label: {
     type: String,
@@ -26,6 +26,17 @@ defineProps({
     default: 1,
   },
 });
+
+const handleValueChange = (event: Event) => {
+  const value: string = (event.target as HTMLInputElement).value;
+  let finalValue: Number | undefined = 0;
+  if (value === "") {
+    finalValue = undefined;
+  } else {
+    finalValue = Number(value);
+  }
+  emits("update:modelValue", finalValue);
+};
 </script>
 
 <template>
@@ -42,12 +53,7 @@ defineProps({
       :min="min"
       :max="max"
       :step="step"
-      @input="
-        $emit(
-          'update:modelValue',
-          Number(($event.target as HTMLInputElement).value)
-        )
-      "
+      @input="handleValueChange"
     />
   </div>
 </template>

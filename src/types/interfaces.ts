@@ -10,17 +10,18 @@ export interface GlobalConfig {
   steps: number;
   scale: number;
   ddim_eta: number;
+  frames: FrameContract[];
 }
 
 export interface FrameContract {
   id: number;
-  prompt: string;
-  angle: number;
-  zoom: number;
-  translation_x: number;
-  translation_y: number;
-  translation_z: number;
-  rotation_3d_x: number;
-  rotation_3d_y: number;
-  rotation_3d_z: number;
+  prompt: string | undefined;
+  angle: number | undefined;
+  zoom: number | undefined;
+  translation_x: number | undefined;
+  translation_y: number | undefined;
+  translation_z: number | undefined;
+  rotation_3d_x: number | undefined;
+  rotation_3d_y: number | undefined;
+  rotation_3d_z: number | undefined;
 }

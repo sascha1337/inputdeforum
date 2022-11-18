@@ -1,5 +1,5 @@
 import { Sampler, SeedBehavior } from "./enums";
-import { GlobalConfig } from "./interfaces";
+import { FrameContract, GlobalConfig } from "./interfaces";
 
 export default class Config implements GlobalConfig {
   batch_name: string;
@@ -11,6 +11,7 @@ export default class Config implements GlobalConfig {
   steps: number;
   scale: number;
   ddim_eta: number;
+  frames: FrameContract[];
 
   constructor() {
     this.batch_name = "default";
@@ -22,5 +23,6 @@ export default class Config implements GlobalConfig {
     this.steps = 100;
     this.scale = 8;
     this.ddim_eta = 0;
+    this.frames = [];
   }
 }
