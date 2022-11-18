@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, Ref } from "vue";
+import XButton from "./inputs/XButton.vue";
 import XSelect from "./inputs/XSelect.vue";
 import XText from "./inputs/XText.vue";
 
@@ -47,12 +48,7 @@ const handleSave = () => {
           @update:modelValue="(newConfigName: string) => (selectedConfig = newConfigName)"
         ></x-select>
         <div class="flex items-center">
-          <button
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-md text-xs shadow-sm hover:shadow-md transition-all"
-            @click="handleLoad"
-          >
-            Load
-          </button>
+          <XButton @click="handleLoad">Load</XButton>
         </div>
       </div>
       <div class="flex w-full space-x-4">
@@ -63,12 +59,7 @@ const handleSave = () => {
           @update:modelValue="(newConfigName: string) => (configName = newConfigName)"
         ></x-text>
         <div class="flex items-center">
-          <button
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-md text-xs shadow-sm hover:shadow-md transition-all"
-            @click="handleSave"
-          >
-            Save
-          </button>
+          <XButton @click="handleSave">Save</XButton>
         </div>
       </div>
     </div>

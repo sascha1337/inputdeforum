@@ -11,3 +11,16 @@ export interface GlobalConfig {
   scale: number;
   ddim_eta: number;
 }
+
+export interface FrameContract {
+  id: number;
+  prompt: string;
+  angle: number;
+  zoom: number;
+  translation_x: number;
+  translation_y: number;
+  translation_z: number;
+  rotation_3d_x: number;
+  rotation_3d_y: number;
+  rotation_3d_z: number;
+}

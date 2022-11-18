@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, Ref, watch } from "vue";
 import Config from "../types/Config";
 import XText from "./inputs/XText.vue";
 import XNumber from "./inputs/XNumber.vue";
