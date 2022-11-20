@@ -30,8 +30,10 @@ const handleLoad = (newConfigName: string) => {
 };
 
 const handleDelete = () => {
-  emits("config:delete", configName.value);
-  configName.value = "";
+  if (confirm("Are you sure you want to delete this config?")) {
+    emits("config:delete", configName.value);
+    configName.value = "";
+  }
 };
 
 const downloadBackup = () => {

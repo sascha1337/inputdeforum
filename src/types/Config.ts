@@ -1,4 +1,5 @@
 import { Sampler, SeedBehavior } from "./enums";
+import Frame from "./Frame";
 import { FrameContract, GlobalConfig } from "./interfaces";
 
 export default class Config implements GlobalConfig {
@@ -23,6 +24,6 @@ export default class Config implements GlobalConfig {
     this.steps = 100;
     this.scale = 8;
     this.ddim_eta = 0;
-    this.frames = [];
+    this.frames = [new Frame()];
   }
 }

@@ -2,8 +2,8 @@
 import { onMounted, ref, Ref } from "vue";
 import FramesConfigComponent from "./components/FramesConfigComponent.vue";
 import GlobalConfigComponent from "./components/GlobalConfigComponent.vue";
-import ConfigGenerator from "./components/ConfigGenerator.vue";
-import SaveConfigs from "./components/SaveConfigs.vue";
+import JsonConfigGenerator from "./components/JsonConfigGenerator.vue";
+import LoadOrSave from "./components/LoadOrSave.vue";
 import { LocalStorage } from "./services/LocalStorage";
 import Config from "./types/Config";
 import Frame from "./types/Frame";
@@ -77,11 +77,6 @@ const handleAddFrameBetween = (index: number) => {
   onConfigChange();
 };
 
-const handleAutoSaveChange = (isAutoSaveEnabled: boolean) => {
-  userConfig.value.isAutoSaveEnabled = isAutoSaveEnabled;
-  handleUserConfigSave();
-};
-
 const handleUserConfigSave = () => {
   LocalStorage.saveUserConfig(userConfig.value);
 };
@@ -89,6 +84,10 @@ const handleUserConfigSave = () => {
 const handleConfigDelete = (configName: string) => {
   LocalStorage.deleteConfig(configName);
   configNames.value = LocalStorage.getConfigNames();
+  if (configName === selectedConfigName.value) {
+    config.value = new Config();
+    selectedConfigName.value = "";
+  }
 };
 
 const handleConfigNameChange = (newConfigName: string) => {
@@ -102,7 +101,7 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-col space-y-8 mx-4 my-4">
-    <SaveConfigs
+    <LoadOrSave
       :configNames="configNames"
       :selectedConfigName="selectedConfigName"
       @config:load="handleConfigLoad"
@@ -119,8 +118,7 @@ onMounted(() => {
       @update:frameList="handleFrameListChange"
       @update:addFrameBetween="handleAddFrameBetween"
     />
-
-    <ConfigGenerator :config="config" />
+    <JsonConfigGenerator :config="config" />
   </div>
   <SaveNotification
     :isSaveNotificationVisible="isSaveNotificationVisible"
