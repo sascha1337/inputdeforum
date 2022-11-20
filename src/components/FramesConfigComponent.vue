@@ -65,9 +65,13 @@ const handleDelete = (index: number) => {
     </div>
 
     <div class="flex flex-col space-y-4">
-      <div class="flex space-x-2">
+      <div
+        class="flex space-x-2 sticky top-0 z-20 backdrop-blur-md py-4 px-6 -mx-4 shadow-md"
+      >
         <div class="w-4"></div>
-        <div class="grid grid-cols-12 gap-2 font-bold uppercase p-2 items-end">
+        <div
+          class="grid grid-cols-12 gap-2 font-bold uppercase items-end w-full"
+        >
           <div class="row-span-2">#</div>
           <div class="col-span-3 row-span-2">Prompt</div>
           <div class="row-span-2">Angle</div>
@@ -87,7 +91,7 @@ const handleDelete = (index: number) => {
         <div id="hue" class="w-4 rounded"></div>
         <div class="flex flex-col space-y-4">
           <div
-            class="grid grid-cols-12 gap-2 odd:bg-white even:bg-slate-50 rounded-md shadow p-2"
+            class="grid grid-cols-12 gap-2 odd:bg-slate-50 even:bg-white rounded-md shadow p-2"
             v-for="(frame, index) in frameList"
           >
             <XNumber

@@ -14,7 +14,7 @@ const userConfig: Ref<UserConfig> = ref(new UserConfig());
 const configNames: Ref<string[]> = ref(LocalStorage.getConfigNames());
 const selectedConfigName: Ref<string> = ref("");
 
-const autoSave = () => {
+const onConfigChange = () => {
   if (userConfig.value.isAutoSaveEnabled) {
     handleConfigSave(selectedConfigName.value);
   }
@@ -22,7 +22,7 @@ const autoSave = () => {
 
 const handleConfigChange = (newConfig: Config) => {
   config.value = newConfig;
-  autoSave();
+  onConfigChange();
 };
 
 const handleConfigLoad = (newSelectedConfigName: string) => {
@@ -41,17 +41,17 @@ const handleConfigSave = (newConfigName: string) => {
 
 const handleAddFrame = () => {
   config.value.frames.push(new Frame());
-  autoSave();
+  onConfigChange();
 };
 
 const handleFrameListChange = (newFrameList: Frame[]) => {
   config.value.frames = newFrameList;
-  autoSave();
+  onConfigChange();
 };
 
 const handleAddFrameBetween = (index: number) => {
   config.value.frames.splice(index + 1, 0, new Frame());
-  autoSave();
+  onConfigChange();
 };
 
 const handleAutoSaveChange = (isAutoSaveEnabled: boolean) => {
@@ -76,7 +76,7 @@ onMounted(() => {
       :isAutoSaveEnabled="userConfig.isAutoSaveEnabled"
       @config:load="handleConfigLoad"
       @config:save="handleConfigSave"
-      @config:autosave="handleAutoSaveChange"
+      @config:onConfigChange="handleAutoSaveChange"
     />
     <GlobalConfigComponent
       :config="config"

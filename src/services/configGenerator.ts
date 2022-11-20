@@ -1,12 +1,10 @@
 import Frame from "../types/Frame";
 import { GlobalConfig } from "../types/interfaces";
+import { baseConfig } from "./base-config";
 
-export async function generateConfig(config: GlobalConfig): Promise<string> {
-  const configJson = await import("./base-config.json");
-
+export function generateConfig(config: GlobalConfig): string {
   let newConfig = {};
-  Object.assign(newConfig, configJson);
-  delete (newConfig as any).default;
+  Object.assign(newConfig, baseConfig);
 
   replaceValues(newConfig, config);
   compileAnimationPrompts(newConfig, config.frames);
