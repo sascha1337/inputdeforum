@@ -1,7 +1,9 @@
-import { GlobalConfig } from "./types/interfaces";
+import { GlobalConfig } from "../types/interfaces";
+import UserConfig from "../types/UserConfig";
 
 export class LocalStorage {
   public static namespace: string = "input-deforum";
+  public static userNamespace: string = "input-deforum-user";
 
   public static saveConfig(name: string, config: GlobalConfig): void {
     let configs = this.getConfigsFromStorage();
@@ -41,5 +43,17 @@ export class LocalStorage {
       }
     }
     return names.sort();
+  }
+
+  // save user config
+  public static saveUserConfig(userConfig: UserConfig): void {
+    localStorage.setItem(this.userNamespace, JSON.stringify(userConfig));
+  }
+
+  public static getUserConfig(): UserConfig | null {
+    const userConfig = JSON.parse(
+      localStorage.getItem(this.userNamespace) || "{}"
+    );
+    return userConfig;
   }
 }

@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { ref, Ref } from "vue";
+import { onMounted, ref, Ref } from "vue";
 import FramesConfigComponent from "./components/FramesConfigComponent.vue";
 import GlobalConfigComponent from "./components/GlobalConfigComponent.vue";
 import ConfigGenerator from "./components/ConfigGenerator.vue";
 import SaveConfigs from "./components/SaveConfigs.vue";
-import { LocalStorage } from "./LocalStorage";
+import { LocalStorage } from "./services/LocalStorage";
 import Config from "./types/Config";
 import Frame from "./types/Frame";
+import UserConfig from "./types/UserConfig";
 
 const config: Ref<Config> = ref(new Config());
+const userConfig: Ref<UserConfig> = ref(new UserConfig());
 const configNames: Ref<string[]> = ref(LocalStorage.getConfigNames());
 const selectedConfigName: Ref<string> = ref("");
 
@@ -38,8 +40,17 @@ const handleAddFrameBetween = (index: number) => {
 };
 
 const handleAutoSaveChange = (isAutoSaveEnabled: boolean) => {
-  config.value.isAutoSaveEnabled = isAutoSaveEnabled;
+  userConfig.value.isAutoSaveEnabled = isAutoSaveEnabled;
+  handleUserConfigSave();
 };
+
+const handleUserConfigSave = () => {
+  LocalStorage.saveUserConfig(userConfig.value);
+};
+
+onMounted(() => {
+  userConfig.value = LocalStorage.getUserConfig() ?? new UserConfig();
+});
 </script>
 
 <template>
@@ -47,7 +58,7 @@ const handleAutoSaveChange = (isAutoSaveEnabled: boolean) => {
     <SaveConfigs
       :configNames="configNames"
       :selectedConfigName="selectedConfigName"
-      :isAutoSaveEnabled="config.isAutoSaveEnabled"
+      :isAutoSaveEnabled="userConfig.isAutoSaveEnabled"
       @config:load="handleConfigLoad"
       @config:save="handleConfigSave"
       @config:autosave="handleAutoSaveChange"

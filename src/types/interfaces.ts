@@ -11,7 +11,6 @@ export interface GlobalConfig {
   scale: number;
   ddim_eta: number;
   frames: FrameContract[];
-  isAutoSaveEnabled: boolean;
 }
 
 export interface FrameContract {
