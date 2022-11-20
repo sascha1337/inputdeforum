@@ -60,6 +60,9 @@ function compileFrameStrings(
     rotation_3d_x: "",
     rotation_3d_y: "",
     rotation_3d_z: "",
+    noise_schedule: "",
+    strength_schedule: "",
+    contrast_schedule: "",
   };
 
   for (let i = 0; i < frames.length; i++) {

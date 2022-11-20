@@ -40,15 +40,17 @@ const handleValueChange = (event: Event) => {
 </script>
 
 <template>
-  <div class="flex space-x-4 items-center">
+  <div class="flex space-x-4 items-start" :class="{ 'items-center': label }">
     <label
       v-if="label"
+      :for="`x-number-${label.replaceAll(' ', '-').toLowerCase()}`"
       class="text-sm font-medium text-gray-700 w-1/5 text-right"
       >{{ label }}</label
     >
     <input
       class="border border-gray-300 rounded-md px-2 py-1 w-full"
       type="number"
+      :id="`x-number-${label?.replaceAll(' ', '-').toLowerCase()}`"
       :value="modelValue"
       :min="min"
       :max="max"

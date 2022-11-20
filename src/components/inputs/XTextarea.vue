@@ -4,15 +4,11 @@ defineEmits(["update:modelValue"]);
 defineProps({
   modelValue: {
     type: String,
-    required: true,
+    required: false,
   },
   label: {
     type: String,
     required: false,
-  },
-  options: {
-    type: Array,
-    required: true,
   },
 });
 </script>
@@ -21,21 +17,20 @@ defineProps({
   <div class="flex space-x-4 items-start" :class="{ 'items-center': label }">
     <label
       v-if="label"
-      :for="`x-select-${label.replaceAll(' ', '-').toLowerCase()}`"
+      :for="`x-textarea-${label.replaceAll(' ', '-').toLowerCase()}`"
       class="text-sm font-medium text-gray-700 w-1/5 text-right"
       >{{ label }}</label
     >
-    <select
+    <textarea
       class="border border-gray-300 rounded-md px-2 py-1 w-full"
-      :id="`x-select-${label?.replaceAll(' ', '-').toLowerCase()}`"
+      :id="`x-textarea-${label?.replaceAll(' ', '-').toLowerCase()}`"
+      type="text"
+      rows="2"
       :value="modelValue"
       @input="
         $emit('update:modelValue', ($event.target as HTMLInputElement).value)
       "
     >
-      <option v-for="option in options" :value="option">
-        {{ option }}
-      </option>
-    </select>
+    </textarea>
   </div>
 </template>

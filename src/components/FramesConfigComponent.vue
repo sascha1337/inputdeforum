@@ -2,7 +2,7 @@
 import Frame from "../types/Frame";
 import XButton from "./inputs/XButton.vue";
 import XNumber from "./inputs/XNumber.vue";
-import XText from "./inputs/XText.vue";
+import XTextarea from "./inputs/XTextarea.vue";
 
 const emit = defineEmits(["update:frameList", "update:addFrame"]);
 
@@ -22,8 +22,10 @@ type NumberFrameKeys =
   | keyof Pick<Frame, "translation_z">
   | keyof Pick<Frame, "rotation_3d_x">
   | keyof Pick<Frame, "rotation_3d_y">
-  | keyof Pick<Frame, "rotation_3d_z">;
-
+  | keyof Pick<Frame, "rotation_3d_z">
+  | keyof Pick<Frame, "noise_schedule">
+  | keyof Pick<Frame, "strength_schedule">
+  | keyof Pick<Frame, "contrast_schedule">;
 const handleNumberChange = (
   value: number,
   index: number,
@@ -49,20 +51,27 @@ const handleAddFrame = () => {
       <h1 class="text-2xl font-bold mb-5">Frames config</h1>
     </div>
     <div class="flex flex-col space-y-4">
-      <div class="grid grid-cols-12 gap-2">
-        <div>#</div>
-        <div class="col-span-3">Prompt</div>
-        <div>Angle</div>
-        <div>Zoom</div>
+      <div class="grid grid-cols-12 gap-2 font-bold uppercase p-2 items-end">
+        <div class="row-span-2">#</div>
+        <div class="col-span-3 row-span-2">Prompt</div>
+        <div class="row-span-2">Angle</div>
+        <div class="row-span-2">Zoom</div>
         <div>X</div>
         <div>Y</div>
         <div>Z</div>
+        <div class="row-span-2">Noise</div>
+        <div class="row-span-2">Strength</div>
+        <div class="row-span-2">Contrast</div>
         <div>3D X</div>
         <div>3D Y</div>
         <div>3D Z</div>
       </div>
-      <div class="grid grid-cols-12 gap-2" v-for="(frame, index) in frameList">
+      <div
+        class="grid grid-cols-12 gap-2 odd:bg-white even:bg-slate-50 rounded-md shadow p-2"
+        v-for="(frame, index) in frameList"
+      >
         <XNumber
+          class="row-span-2"
           :modelValue="(frame as Frame).id"
           :min="0"
           :max="100000"
@@ -70,13 +79,14 @@ const handleAddFrame = () => {
           @update:modelValue="(newId: number) => (handleNumberChange(newId, index, 'id'))"
         ></XNumber>
 
-        <XText
-          class="col-span-3"
+        <XTextarea
+          class="col-span-3 row-span-2"
           :modelValue="(frame as Frame).prompt"
           @update:modelValue="(newPrompt: string) => (handlePromptChange(newPrompt, index))"
-        ></XText>
+        ></XTextarea>
 
         <XNumber
+          class="row-span-2"
           :modelValue="(frame as Frame).angle"
           :min="0"
           :max="360"
@@ -85,6 +95,7 @@ const handleAddFrame = () => {
         ></XNumber>
 
         <XNumber
+          class="row-span-2"
           :modelValue="(frame as Frame).zoom"
           :min="0"
           :max="100"
@@ -114,6 +125,33 @@ const handleAddFrame = () => {
           :max="100"
           :step="0.001"
           @update:modelValue="(newTranslationZ: number) => (handleNumberChange(newTranslationZ, index, 'translation_z'))"
+        ></XNumber>
+
+        <XNumber
+          class="row-span-2"
+          :modelValue="(frame as Frame).noise_schedule"
+          :min="0"
+          :max="100"
+          :step="0.001"
+          @update:modelValue="(newNoiseSchedule: number) => (handleNumberChange(newNoiseSchedule, index, 'noise_schedule'))"
+        ></XNumber>
+
+        <XNumber
+          class="row-span-2"
+          :modelValue="(frame as Frame).strength_schedule"
+          :min="0"
+          :max="100"
+          :step="0.001"
+          @update:modelValue="(newStrengthSchedule: number) => (handleNumberChange(newStrengthSchedule, index, 'strength_schedule'))"
+        ></XNumber>
+
+        <XNumber
+          class="row-span-2"
+          :modelValue="(frame as Frame).contrast_schedule"
+          :min="0"
+          :max="100"
+          :step="0.001"
+          @update:modelValue="(newContrastSchedule: number) => (handleNumberChange(newContrastSchedule, index, 'contrast_schedule'))"
         ></XNumber>
 
         <XNumber

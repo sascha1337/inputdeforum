@@ -23,7 +23,7 @@ const generateCode = async () => {
     <div>
       <h1 class="text-2xl font-bold mb-5">Config generation</h1>
     </div>
-    <div class="flex flex-col space-y-4">
+    <div class="flex flex-col space-y-4 bg-slate-50 rounded-md shadow p-2">
       <!-- a "generate" xbutton component -->
       <div class="flex">
         <x-button @click="generateCode">Generate</x-button>

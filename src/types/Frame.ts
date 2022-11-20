@@ -11,6 +11,9 @@ export default class Frame implements FrameContract {
   rotation_3d_x: number | undefined;
   rotation_3d_y: number | undefined;
   rotation_3d_z: number | undefined;
+  noise_schedule: number | undefined;
+  strength_schedule: number | undefined;
+  contrast_schedule: number | undefined;
 
   constructor() {
     this.id = 0;
@@ -23,5 +26,8 @@ export default class Frame implements FrameContract {
     this.rotation_3d_x = undefined;
     this.rotation_3d_y = undefined;
     this.rotation_3d_z = undefined;
+    this.noise_schedule = undefined;
+    this.strength_schedule = undefined;
+    this.contrast_schedule = undefined;
   }
 }

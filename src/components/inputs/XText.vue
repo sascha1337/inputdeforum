@@ -14,15 +14,17 @@ defineProps({
 </script>
 
 <template>
-  <div class="flex space-x-4 items-center">
+  <div class="flex space-x-4 items-start" :class="{ 'items-center': label }">
     <label
       v-if="label"
+      :for="`x-text-${label.replaceAll(' ', '-').toLowerCase()}`"
       class="text-sm font-medium text-gray-700 w-1/5 text-right"
       >{{ label }}</label
     >
     <input
       class="border border-gray-300 rounded-md px-2 py-1 w-full"
       type="text"
+      :id="`x-text-${label?.replaceAll(' ', '-').toLowerCase()}`"
       :value="modelValue"
       @input="
         $emit('update:modelValue', ($event.target as HTMLInputElement).value)

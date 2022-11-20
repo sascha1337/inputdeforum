@@ -24,4 +24,7 @@ export interface FrameContract {
   rotation_3d_x: number | undefined;
   rotation_3d_y: number | undefined;
   rotation_3d_z: number | undefined;
+  noise_schedule: number | undefined;
+  strength_schedule: number | undefined;
+  contrast_schedule: number | undefined;
 }
