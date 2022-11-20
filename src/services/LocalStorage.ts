@@ -71,4 +71,8 @@ export class LocalStorage {
     delete configs[name];
     localStorage.setItem(this.namespace, JSON.stringify(configs));
   }
+
+  public static getBackup(): string {
+    return localStorage.getItem(this.namespace) || "";
+  }
 }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, Ref } from "vue";
+import { computed, ref, Ref, watch } from "vue";
+import { LocalStorage } from "../services/LocalStorage";
 import XButton from "./inputs/XButton.vue";
 import XSelect from "./inputs/XSelect.vue";
 import XText from "./inputs/XText.vue";
@@ -32,6 +33,15 @@ const handleDelete = () => {
   emits("config:delete", configName.value);
   configName.value = "";
 };
+
+const downloadBackup = () => {
+  const backup: string = LocalStorage.getBackup();
+  const element = document.createElement("a");
+  const file = new Blob([backup], { type: "application/json" });
+  element.href = URL.createObjectURL(file);
+  element.download = "backup.json";
+  element.click();
+};
 </script>
 
 <template>
@@ -63,7 +73,7 @@ const handleDelete = () => {
         </div>
       </div>
       <div class="flex w-full space-x-4 justify-end">
-        <XButton>Download backup</XButton>
+        <XButton @click="downloadBackup">Download backup</XButton>
         <!-- <div>or</div>
         <div class="flex">
           <input type="file" name="" id="" />
