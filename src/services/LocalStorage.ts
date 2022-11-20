@@ -56,4 +56,19 @@ export class LocalStorage {
     );
     return userConfig;
   }
+
+  public static deleteConfig(name: string): void {
+    const configs = this.getConfigsFromStorage();
+
+    if (configs === null) {
+      return;
+    }
+
+    if (configs[name] === undefined) {
+      return;
+    }
+
+    delete configs[name];
+    localStorage.setItem(this.namespace, JSON.stringify(configs));
+  }
 }

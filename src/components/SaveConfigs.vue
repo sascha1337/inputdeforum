@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, Ref } from "vue";
 import XButton from "./inputs/XButton.vue";
-import XCheckbox from "./inputs/XCheckbox.vue";
 import XSelect from "./inputs/XSelect.vue";
 import XText from "./inputs/XText.vue";
 
@@ -14,31 +13,24 @@ defineProps({
     type: String,
     required: true,
   },
-  isAutoSaveEnabled: {
-    type: Boolean,
-    required: true,
-  },
 });
 
-// emit config change and save
-const emits = defineEmits(["config:load", "config:save", "config:autosave"]);
+const emits = defineEmits([
+  "config:load",
+  "config:name-changed",
+  "config:delete",
+]);
 
 const configName: Ref<string> = ref("");
 
-const selectedConfig: Ref<string> = ref("");
-
-const handleLoad = () => {
-  configName.value = selectedConfig.value;
-  emits("config:load", selectedConfig.value);
+const handleLoad = (newConfigName: string) => {
+  configName.value = newConfigName;
+  emits("config:load", newConfigName);
 };
 
-const handleSave = () => {
-  emits("config:save", configName.value);
-  selectedConfig.value = configName.value;
-};
-
-const handleAutoSaveChange = (value: boolean) => {
-  emits("config:autosave", value);
+const handleDelete = () => {
+  emits("config:delete", configName.value);
+  configName.value = "";
 };
 </script>
 
@@ -51,33 +43,32 @@ const handleAutoSaveChange = (value: boolean) => {
       <div class="flex w-full space-x-4">
         <x-select
           class="w-full"
-          :modelValue="selectedConfig"
+          :modelValue="selectedConfigName"
           label="Saved configs"
           :options="configNames"
-          @update:modelValue="(newConfigName: string) => (selectedConfig = newConfigName)"
+          @update:modelValue="(newConfigName: string) => handleLoad(newConfigName)"
         ></x-select>
-        <div class="flex items-center">
-          <XButton @click="handleLoad">Load</XButton>
-        </div>
       </div>
       <div class="flex w-full space-x-4">
         <x-text
           class="w-full"
           :modelValue="configName"
           label="Config name"
-          @update:modelValue="(newConfigName: string) => (configName = newConfigName)"
+          @update:modelValue="
+            (newConfigName) => $emit('config:name-changed', newConfigName)
+          "
         ></x-text>
         <div class="flex items-center">
-          <XButton @click="handleSave">Save</XButton>
+          <XButton @click="handleDelete">Delete</XButton>
         </div>
       </div>
-      <div class="flex w-full space-x-4">
-        <XCheckbox
-          class="w-full"
-          :modelValue="isAutoSaveEnabled"
-          label="Auto save"
-          @update:modelValue="handleAutoSaveChange"
-        ></XCheckbox>
+      <div class="flex w-full space-x-4 justify-end">
+        <XButton>Download backup</XButton>
+        <!-- <div>or</div>
+        <div class="flex">
+          <input type="file" name="" id="" />
+          <XButton>import</XButton>
+        </div> -->
       </div>
     </div>
   </div>
