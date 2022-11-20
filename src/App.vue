@@ -81,10 +81,10 @@ const handleUserConfigSave = () => {
   LocalStorage.saveUserConfig(userConfig.value);
 };
 
-const handleConfigDelete = (configName: string) => {
-  LocalStorage.deleteConfig(configName);
+const handleConfigDelete = () => {
+  LocalStorage.deleteConfig(selectedConfigName.value);
   configNames.value = LocalStorage.getConfigNames();
-  if (configName === selectedConfigName.value) {
+  if (selectedConfigName.value) {
     config.value = new Config();
     selectedConfigName.value = "";
   }

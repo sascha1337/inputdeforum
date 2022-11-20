@@ -31,7 +31,7 @@ const handleLoad = (newConfigName: string) => {
 
 const handleDelete = () => {
   if (confirm("Are you sure you want to delete this config?")) {
-    emits("config:delete", configName.value);
+    emits("config:delete");
     configName.value = "";
   }
 };
