@@ -32,6 +32,10 @@ const handleAddFrame = () => {
 const handleFrameListChange = (newFrameList: Frame[]) => {
   config.value.frames = newFrameList;
 };
+
+const handleAddFrameBetween = (index: number) => {
+  config.value.frames.splice(index + 1, 0, new Frame());
+};
 </script>
 
 <template>
@@ -50,6 +54,7 @@ const handleFrameListChange = (newFrameList: Frame[]) => {
       :frameList="config.frames"
       @update:addFrame="handleAddFrame"
       @update:frameList="handleFrameListChange"
+      @update:addFrameBetween="handleAddFrameBetween"
     />
 
     <ConfigGenerator :config="config" />
