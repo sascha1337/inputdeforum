@@ -218,12 +218,14 @@ const reorderFrames = () => {
               <XButton
                 class="bg-gray-200 hover:bg-gray-300 text-gray-800"
                 @click="handleAddFrameBetween(index)"
+                title="Add a frame below this one"
               >
                 Add frame
               </XButton>
               <XButton
                 class="bg-gray-200 hover:bg-gray-300 text-gray-800"
                 @click="handleDelete(index)"
+                title="Delete this frame"
               >
                 Delete
               </XButton>
@@ -243,8 +245,12 @@ const reorderFrames = () => {
         label="Steps increment"
         @update:modelValue="(newStepIncrement: number) => $emit('user-config:step-increment-change', newStepIncrement)"
       ></XNumber>
-      <XButton @click="sortFramesById">Sort</XButton>
-      <XButton @click="reorderFrames">Reorder</XButton>
+      <XButton @click="sortFramesById" title="Sort frames by ID">Sort</XButton>
+      <XButton
+        @click="reorderFrames"
+        title="Reindex frames using steps increment"
+        >Reindex</XButton
+      >
     </div>
   </div>
 </template>

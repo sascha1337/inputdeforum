@@ -71,11 +71,17 @@ const downloadBackup = () => {
           "
         ></x-text>
         <div class="flex items-center">
-          <XButton @click="handleDelete">Delete</XButton>
+          <XButton @click="handleDelete" title="Delete a saved config"
+            >Delete</XButton
+          >
         </div>
       </div>
       <div class="flex w-full space-x-4 justify-end">
-        <XButton @click="downloadBackup">Download backup</XButton>
+        <XButton
+          @click="downloadBackup"
+          title="Download a backup json file containing your data (importable in the future)"
+          >Download backup</XButton
+        >
         <!-- <div>or</div>
         <div class="flex">
           <input type="file" name="" id="" />
