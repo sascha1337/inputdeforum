@@ -26,7 +26,8 @@ defineProps({
       >{{ label }}</label
     >
     <select
-      class="border border-gray-300 rounded-md px-2 py-1 w-full"
+      class="border border-gray-300 rounded-md px-2 py-1 flex-grow"
+      :class="{ 'w-full flex-grow-0': !label }"
       :id="`x-select-${label?.replaceAll(' ', '-').toLowerCase()}`"
       :value="modelValue"
       @input="

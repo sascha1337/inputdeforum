@@ -12,6 +12,7 @@ export default class Config implements GlobalConfig {
   scale: number;
   ddim_eta: number;
   frames: FrameContract[];
+  isAutoSaveEnabled: boolean;
 
   constructor() {
     this.batch_name = "default";
@@ -24,5 +25,6 @@ export default class Config implements GlobalConfig {
     this.scale = 8;
     this.ddim_eta = 0;
     this.frames = [];
+    this.isAutoSaveEnabled = false;
   }
 }

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, Ref } from "vue";
 import XButton from "./inputs/XButton.vue";
+import XCheckbox from "./inputs/XCheckbox.vue";
 import XSelect from "./inputs/XSelect.vue";
 import XText from "./inputs/XText.vue";
 
@@ -13,10 +14,14 @@ defineProps({
     type: String,
     required: true,
   },
+  isAutoSaveEnabled: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 // emit config change and save
-const emits = defineEmits(["config:load", "config:save"]);
+const emits = defineEmits(["config:load", "config:save", "config:autosave"]);
 
 const configName: Ref<string> = ref("");
 
@@ -30,6 +35,10 @@ const handleLoad = () => {
 const handleSave = () => {
   emits("config:save", configName.value);
   selectedConfig.value = configName.value;
+};
+
+const handleAutoSaveChange = (value: boolean) => {
+  emits("config:autosave", value);
 };
 </script>
 
@@ -61,6 +70,14 @@ const handleSave = () => {
         <div class="flex items-center">
           <XButton @click="handleSave">Save</XButton>
         </div>
+      </div>
+      <div class="flex w-full space-x-4">
+        <XCheckbox
+          class="w-full"
+          :modelValue="isAutoSaveEnabled"
+          label="Auto save"
+          @update:modelValue="handleAutoSaveChange"
+        ></XCheckbox>
       </div>
     </div>
   </div>

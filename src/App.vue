@@ -36,15 +36,21 @@ const handleFrameListChange = (newFrameList: Frame[]) => {
 const handleAddFrameBetween = (index: number) => {
   config.value.frames.splice(index + 1, 0, new Frame());
 };
+
+const handleAutoSaveChange = (isAutoSaveEnabled: boolean) => {
+  config.value.isAutoSaveEnabled = isAutoSaveEnabled;
+};
 </script>
 
 <template>
-  <div class="flex flex-col space-y-8 mx-2 my-2">
+  <div class="flex flex-col space-y-8 mx-4 my-4">
     <SaveConfigs
       :configNames="configNames"
       :selectedConfigName="selectedConfigName"
+      :isAutoSaveEnabled="config.isAutoSaveEnabled"
       @config:load="handleConfigLoad"
       @config:save="handleConfigSave"
+      @config:autosave="handleAutoSaveChange"
     />
     <GlobalConfigComponent
       :config="config"

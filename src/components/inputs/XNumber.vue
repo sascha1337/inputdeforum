@@ -48,7 +48,8 @@ const handleValueChange = (event: Event) => {
       >{{ label }}</label
     >
     <input
-      class="border border-gray-300 rounded-md px-2 py-1 w-full"
+      class="border border-gray-300 rounded-md px-2 py-1 flex-grow"
+      :class="{ 'w-full flex-grow-0': !label }"
       type="number"
       :id="`x-number-${label?.replaceAll(' ', '-').toLowerCase()}`"
       :value="modelValue"
