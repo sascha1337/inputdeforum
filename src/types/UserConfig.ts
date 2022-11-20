@@ -1,7 +1,7 @@
 export default class UserConfig {
-  isAutoSaveEnabled: boolean;
+  stepIncrement: number;
 
   constructor() {
-    this.isAutoSaveEnabled = false;
+    this.stepIncrement = 1;
   }
 }

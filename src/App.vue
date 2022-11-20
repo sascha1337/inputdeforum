@@ -18,7 +18,7 @@ const isSaveNotificationVisible: Ref<boolean> = ref(false);
 const saveNotificationTimeout: Ref<number | null> = ref(null);
 
 const onConfigChange = () => {
-  if (userConfig.value.isAutoSaveEnabled && selectedConfigName.value) {
+  if (selectedConfigName.value) {
     handleConfigSave(selectedConfigName.value);
     showSaveNotification();
   }
@@ -62,23 +62,24 @@ const handleConfigSave = (newConfigName: string) => {
   configNames.value = LocalStorage.getConfigNames();
 };
 
-const handleAddFrame = () => {
-  config.value.frames.push(new Frame());
-  onConfigChange();
-};
-
 const handleFrameListChange = (newFrameList: Frame[]) => {
   config.value.frames = newFrameList;
   onConfigChange();
 };
 
 const handleAddFrameBetween = (index: number) => {
-  config.value.frames.splice(index + 1, 0, new Frame());
+  const frameId = config.value.frames[index].id;
+  config.value.frames.splice(
+    index + 1,
+    0,
+    new Frame(frameId + userConfig.value.stepIncrement)
+  );
   onConfigChange();
 };
 
 const handleUserConfigSave = () => {
   LocalStorage.saveUserConfig(userConfig.value);
+  showSaveNotification();
 };
 
 const handleConfigDelete = () => {
@@ -92,6 +93,12 @@ const handleConfigDelete = () => {
 
 const handleConfigNameChange = (newConfigName: string) => {
   selectedConfigName.value = newConfigName;
+};
+
+const handleStepIncrementChange = (newIncrement: number) => {
+  userConfig.value.stepIncrement = newIncrement;
+  handleUserConfigSave();
+  showSaveNotification();
 };
 
 onMounted(() => {
@@ -114,7 +121,8 @@ onMounted(() => {
     />
     <FramesConfigComponent
       :frameList="config.frames"
-      @update:addFrame="handleAddFrame"
+      :stepIncrement="userConfig.stepIncrement ?? 1"
+      @user-config:step-increment-change="handleStepIncrementChange"
       @update:frameList="handleFrameListChange"
       @update:addFrameBetween="handleAddFrameBetween"
     />

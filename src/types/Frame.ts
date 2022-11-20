@@ -15,8 +15,8 @@ export default class Frame implements FrameContract {
   strength_schedule: number | undefined;
   contrast_schedule: number | undefined;
 
-  constructor() {
-    this.id = 0;
+  constructor(id: number = 0) {
+    this.id = id;
     this.prompt = undefined;
     this.angle = undefined;
     this.zoom = undefined;

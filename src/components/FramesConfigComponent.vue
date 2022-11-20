@@ -6,13 +6,17 @@ import XTextarea from "./inputs/XTextarea.vue";
 
 const emit = defineEmits([
   "update:frameList",
-  "update:addFrame",
   "update:addFrameBetween",
+  "user-config:step-increment-change",
 ]);
 
 const props = defineProps({
   frameList: {
     type: Array,
+    required: true,
+  },
+  stepIncrement: {
+    type: Number,
     required: true,
   },
 });
@@ -44,16 +48,24 @@ const handlePromptChange = (value: string, index: number) => {
   emit("update:frameList", props.frameList);
 };
 
-const handleAddFrame = () => {
-  emit("update:addFrame");
-};
-
 const handleAddFrameBetween = (index: number) => {
   emit("update:addFrameBetween", index);
 };
 
 const handleDelete = (index: number) => {
   props.frameList.splice(index, 1);
+  emit("update:frameList", props.frameList);
+};
+
+const sortFramesById = () => {
+  (props.frameList as Frame[]).sort((a, b) => a.id - b.id);
+  emit("update:frameList", props.frameList);
+};
+
+const reorderFrames = () => {
+  (props.frameList as Frame[]).forEach((frame, index) => {
+    frame.id = index * props.stepIncrement;
+  });
   emit("update:frameList", props.frameList);
 };
 </script>
@@ -221,8 +233,18 @@ const handleDelete = (index: number) => {
       </div>
     </div>
 
-    <div class="flex justify-end mt-5">
-      <XButton @click="handleAddFrame">Add frame</XButton>
+    <div class="flex justify-end items-center mt-5 space-x-4 w-full">
+      <XNumber
+        class="flex-grow"
+        :modelValue="stepIncrement"
+        :min="1"
+        :max="100"
+        :step="1"
+        label="Steps increment"
+        @update:modelValue="(newStepIncrement: number) => $emit('user-config:step-increment-change', newStepIncrement)"
+      ></XNumber>
+      <XButton @click="sortFramesById">Sort</XButton>
+      <XButton @click="reorderFrames">Reorder</XButton>
     </div>
   </div>
 </template>
