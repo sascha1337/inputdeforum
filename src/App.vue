@@ -14,29 +14,44 @@ const userConfig: Ref<UserConfig> = ref(new UserConfig());
 const configNames: Ref<string[]> = ref(LocalStorage.getConfigNames());
 const selectedConfigName: Ref<string> = ref("");
 
-const handleConfigChange = (newConfig: Config) => {
-  config.value = newConfig;
+const autoSave = () => {
+  if (userConfig.value.isAutoSaveEnabled) {
+    handleConfigSave(selectedConfigName.value);
+  }
 };
 
-const handleConfigLoad = (selectedConfigName: string) => {
-  config.value = LocalStorage.getConfig(selectedConfigName) ?? new Config();
+const handleConfigChange = (newConfig: Config) => {
+  config.value = newConfig;
+  autoSave();
+};
+
+const handleConfigLoad = (newSelectedConfigName: string) => {
+  config.value = LocalStorage.getConfig(newSelectedConfigName) ?? new Config();
+  selectedConfigName.value = newSelectedConfigName;
 };
 
 const handleConfigSave = (newConfigName: string) => {
+  if (newConfigName === "") {
+    alert("Please enter a name for your config");
+    return;
+  }
   LocalStorage.saveConfig(newConfigName, config.value);
   configNames.value = LocalStorage.getConfigNames();
 };
 
 const handleAddFrame = () => {
   config.value.frames.push(new Frame());
+  autoSave();
 };
 
 const handleFrameListChange = (newFrameList: Frame[]) => {
   config.value.frames = newFrameList;
+  autoSave();
 };
 
 const handleAddFrameBetween = (index: number) => {
   config.value.frames.splice(index + 1, 0, new Frame());
+  autoSave();
 };
 
 const handleAutoSaveChange = (isAutoSaveEnabled: boolean) => {
