@@ -91,7 +91,7 @@ const handleDelete = (index: number) => {
         <div id="hue" class="w-4 rounded"></div>
         <div class="flex flex-col space-y-4">
           <div
-            class="grid grid-cols-12 gap-2 odd:bg-slate-50 even:bg-white rounded-md shadow p-2"
+            class="grid grid-cols-12 gap-2 odd:bg-gray-50 even:bg-white rounded-md shadow p-2"
             v-for="(frame, index) in frameList"
           >
             <XNumber
@@ -204,13 +204,13 @@ const handleDelete = (index: number) => {
             <div class="flex justify-end items-center col-span-3 space-x-4">
               <!-- add frame -->
               <XButton
-                class="bg-slate-200 hover:bg-slate-300 text-slate-800"
+                class="bg-gray-200 hover:bg-gray-300 text-gray-800"
                 @click="handleAddFrameBetween(index)"
               >
                 Add frame
               </XButton>
               <XButton
-                class="bg-slate-200 hover:bg-slate-300 text-slate-800"
+                class="bg-gray-200 hover:bg-gray-300 text-gray-800"
                 @click="handleDelete(index)"
               >
                 Delete

@@ -20,7 +20,7 @@ const code = computed(() => {
     <div>
       <h1 class="text-2xl font-bold mb-5">Config generation</h1>
     </div>
-    <div class="flex flex-col space-y-4 bg-slate-50 rounded-md shadow p-2">
+    <div class="flex flex-col space-y-4 bg-gray-50 rounded-md shadow p-2">
       <div class="flex justify-center">
         <textarea
           class="border border-gray-300 rounded-md px-2 py-1 w-full font-mono"

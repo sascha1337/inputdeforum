@@ -47,7 +47,7 @@ const handleAutoSaveChange = (value: boolean) => {
     <div>
       <h1 class="text-2xl font-bold mb-5">Load or save config</h1>
     </div>
-    <div class="flex flex-col space-y-4 bg-slate-50 rounded-md shadow p-2">
+    <div class="flex flex-col space-y-4 bg-gray-50 rounded-md shadow p-2">
       <div class="flex w-full space-x-4">
         <x-select
           class="w-full"
