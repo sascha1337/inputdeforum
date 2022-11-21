@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ToolTip from "../ToolTip.vue";
+
 defineEmits(["update:modelValue"]);
 
 defineProps({
@@ -10,6 +12,15 @@ defineProps({
     type: String,
     required: false,
   },
+  tooltip: {
+    type: String,
+    required: false,
+  },
+  tooltipPosition: {
+    type: String,
+    required: false,
+    default: "right",
+  },
 });
 </script>
 
@@ -18,8 +29,12 @@ defineProps({
     <label
       v-if="label"
       :for="`x-textarea-${label.replaceAll(' ', '-').toLowerCase()}`"
-      class="text-sm font-medium text-gray-700 w-1/5 text-right"
-      >{{ label }}</label
+      class="text-sm font-medium text-gray-700 w-1/5 text-right flex items-center justify-end space-x-2"
+      ><span>{{ label }}</span>
+      <ToolTip v-if="tooltip" :position="tooltipPosition">{{
+        tooltip
+      }}</ToolTip>
+    </label>
     >
     <textarea
       class="border border-gray-300 rounded-md px-2 py-1 w-full"

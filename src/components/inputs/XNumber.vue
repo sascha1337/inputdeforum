@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ToolTip from "../ToolTip.vue";
+
 const emits = defineEmits(["update:modelValue"]);
 
 defineProps({
@@ -25,6 +27,15 @@ defineProps({
     required: false,
     default: 1,
   },
+  tooltip: {
+    type: String,
+    required: false,
+  },
+  tooltipPosition: {
+    type: String,
+    required: false,
+    default: "right",
+  },
 });
 
 const handleValueChange = (event: Event) => {
@@ -44,9 +55,12 @@ const handleValueChange = (event: Event) => {
     <label
       v-if="label"
       :for="`x-number-${label.replaceAll(' ', '-').toLowerCase()}`"
-      class="text-sm font-medium text-gray-700 w-1/5 text-right"
-      >{{ label }}</label
-    >
+      class="text-sm font-medium text-gray-700 w-1/5 text-right flex items-center justify-end space-x-2"
+      ><span>{{ label }}</span>
+      <ToolTip v-if="tooltip" :position="tooltipPosition">{{
+        tooltip
+      }}</ToolTip>
+    </label>
     <input
       class="border border-gray-300 rounded-md px-2 py-1 flex-grow font-mono"
       :class="{ 'w-full flex-grow-0': !label }"
