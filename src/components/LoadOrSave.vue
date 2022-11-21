@@ -48,8 +48,26 @@ const downloadBackup = () => {
 
 <template>
   <div>
-    <div>
-      <h1 class="text-2xl font-bold mb-5">Load or save config</h1>
+    <div class="flex flex-col space-y-2 mb-5">
+      <h2 class="text-2xl font-bold mb-2">Load or save config</h2>
+      <p class="text-gray-600 text-sm">
+        Every changes are automatically saved. ✨
+      </p>
+      <ul class="text-gray-600 text-sm list-disc ml-6">
+        <li>
+          To create a new config file, just change the config name and then
+          change a parameter in the global or frames config.
+        </li>
+        <li>To load a saved config, select it in the dropdown.</li>
+        <li>
+          To delete a config, just select it and click on the delete button.
+        </li>
+      </ul>
+      <p class="text-gray-600 text-sm">
+        You can also download a backup of all your configs. (You will also be
+        able to share your configs with others by importing files in a near
+        future.)
+      </p>
     </div>
     <div class="flex flex-col space-y-4 bg-gray-50 rounded-md shadow p-2">
       <div class="flex w-full space-x-4">

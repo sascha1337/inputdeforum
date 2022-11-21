@@ -59,8 +59,11 @@ const handleSeedBehaviorChange = (
 
 <template>
   <div>
-    <div>
-      <h1 class="text-2xl font-bold mb-5">Global config</h1>
+    <div class="flex flex-col space-y-2 mb-5">
+      <h2 class="text-2xl font-bold mb-2">Global config</h2>
+      <p class="text-gray-600 text-sm">
+        Please refer to Deforum documentation for further details
+      </p>
     </div>
     <div class="flex flex-col space-y-4 bg-gray-50 rounded-md shadow p-2">
       <x-text

@@ -73,8 +73,16 @@ const reorderFrames = () => {
 
 <template>
   <div>
-    <div>
-      <h1 class="text-2xl font-bold mb-5">Frames config</h1>
+    <div class="flex flex-col space-y-2 mb-5">
+      <h2 class="text-2xl font-bold mb-2">Frames config</h2>
+      <p class="text-gray-600 text-sm">
+        Configure the frames of your animation. You can add, delete and reorder
+        them.
+      </p>
+      <p class="text-gray-600 text-sm">
+        Reindexing will change the id of each frame to a multiple of the step
+        increment parameter.
+      </p>
     </div>
 
     <div class="flex flex-col space-y-4">

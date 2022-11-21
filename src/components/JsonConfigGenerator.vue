@@ -17,8 +17,12 @@ const code = computed(() => {
 
 <template>
   <div>
-    <div>
-      <h1 class="text-2xl font-bold mb-5">Config generation</h1>
+    <div class="flex flex-col space-y-2 mb-5">
+      <h2 class="text-2xl font-bold mb-2">Config generation</h2>
+      <p class="text-gray-600 text-sm">
+        The code below automatically reflects your changes. You can copy/paste
+        it in your favorite Deforum tool.
+      </p>
     </div>
     <div class="flex flex-col space-y-4 bg-gray-50 rounded-md shadow p-2">
       <div class="flex justify-center">

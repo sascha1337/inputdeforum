@@ -108,6 +108,32 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-col space-y-8 mx-4 my-4">
+    <div class="flex flex-col space-y-2">
+      <h1 class="text-4xl font-serif mb-4">
+        🎨 <span class="underline">Deforum config generator</span>
+      </h1>
+      <p class="text-gray-600 text-sm">
+        This tool will help you generate a config file for the
+        <a
+          class="text-blue-500 hover:text-blue-700"
+          target="_blank"
+          href="https://colab.research.google.com/github/deforum-art/deforum-stable-diffusion/blob/main/Deforum_Stable_Diffusion.ipynb"
+        >
+          Deforum diffusion</a
+        >
+        notebook.
+      </p>
+      <p class="text-gray-600 text-sm">
+        The official documentation for the Deforum project can be found
+        <a
+          class="text-blue-500 hover:text-blue-700"
+          target="_blank"
+          href="https://docs.google.com/document/d/1RrQv7FntzOuLg4ohjRZPVL7iptIyBhwwbcEYEW2OfcI/edit#"
+        >
+          here</a
+        >.
+      </p>
+    </div>
     <LoadOrSave
       :configNames="configNames"
       :selectedConfigName="selectedConfigName"
@@ -127,6 +153,28 @@ onMounted(() => {
       @update:addFrameBetween="handleAddFrameBetween"
     />
     <JsonConfigGenerator :config="config" />
+    <footer class="flex justify-center items-center space-x-8">
+      <p class="text-gray-600 text-sm">
+        Made with 👁👄👁 by
+        <a
+          class="text-blue-500 hover:text-blue-700"
+          target="_blank"
+          href="https://twitter.com/e29HDm"
+        >
+          @e29HDm</a
+        >
+      </p>
+      <p class="text-gray-600 text-sm">
+        code on
+        <a
+          class="text-blue-500 hover:text-blue-700"
+          target="_blank"
+          href="https://github.com/e29HDm/inputdeforum"
+        >
+          Github</a
+        >
+      </p>
+    </footer>
   </div>
   <SaveNotification
     :isSaveNotificationVisible="isSaveNotificationVisible"
