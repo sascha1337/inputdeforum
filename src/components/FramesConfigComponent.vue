@@ -299,14 +299,14 @@ const reorderFrames = () => {
             <div class="flex justify-end items-center col-span-3 space-x-4">
               <!-- add frame -->
               <XButton
-                class="bg-gray-200 hover:bg-gray-300 text-gray-800"
+              colors="bg-gray-200 hover:bg-gray-300 text-gray-800"
                 @click="handleAddFrameBetween(index)"
                 title="Add a frame below this one"
               >
                 Add frame
               </XButton>
               <XButton
-                class="bg-gray-200 hover:bg-gray-300 text-gray-800"
+                colors="bg-gray-200 hover:bg-gray-300 text-gray-800"
                 @click="handleDelete(index)"
                 title="Delete this frame"
               >
