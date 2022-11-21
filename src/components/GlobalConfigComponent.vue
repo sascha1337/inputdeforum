@@ -98,13 +98,13 @@ const handleSelectableChange = (
       <x-text
         label="Batch name"
         tooltip="The name of the batch. This will be used as folder name for the generated images"
-        :modelValue="config.batch_name"
+        :modelValue="config.batch_name ?? 'default'"
         @update:modelValue="(newBatchName: string) => (handleStringChange(newBatchName, 'batch_name'))"
       ></x-text>
 
       <x-number
         label="Width"
-        :modelValue="config.width"
+        :modelValue="config.width ?? 512"
         :min="512"
         :max="2048"
         :step="1"
@@ -114,7 +114,7 @@ const handleSelectableChange = (
 
       <x-number
         label="Height"
-        :modelValue="config.height"
+        :modelValue="config.height ?? 512"
         :min="512"
         :max="2048"
         :step="1"
@@ -124,7 +124,7 @@ const handleSelectableChange = (
 
       <x-number
         label="Seed"
-        :modelValue="config.seed"
+        :modelValue="config.seed ?? -1"
         :min="-1"
         :max="1000000"
         :step="1"
@@ -134,7 +134,7 @@ const handleSelectableChange = (
 
       <x-select
         label="Seed behavior"
-        :modelValue="config.seed_behavior"
+        :modelValue="config.seed_behavior ?? SeedBehavior.Iter"
         :options="seedBehaviorList"
         @update:modelValue="(newSeedBehavior: SeedBehavior) => (handleSelectableChange(newSeedBehavior, 'seed_behavior'))"
         tooltip="The behavior of the seed. If set to 'iter', the seed will be incremented for each image"
@@ -142,7 +142,7 @@ const handleSelectableChange = (
 
       <x-select
         label="Sampler"
-        :modelValue="config.sampler"
+        :modelValue="config.sampler ?? Sampler.Euler"
         :options="samplerList"
         @update:modelValue="(newSampler: Sampler) => (handleSelectableChange(newSampler, 'sampler'))"
         tooltip="The sampler used for the generation. Report to the documentation for more information"
@@ -150,7 +150,7 @@ const handleSelectableChange = (
 
       <x-number
         label="Steps"
-        :modelValue="config.steps"
+        :modelValue="config.steps ?? 100"
         :min="0"
         :max="1000"
         :step="1"
@@ -160,7 +160,7 @@ const handleSelectableChange = (
 
       <x-number
         label="Scale"
-        :modelValue="config.scale"
+        :modelValue="config.scale ?? 8"
         :min="0"
         :max="50"
         :step="1"
@@ -170,7 +170,7 @@ const handleSelectableChange = (
 
       <x-number
         label="Ddim eta"
-        :modelValue="config.ddim_eta"
+        :modelValue="config.ddim_eta ?? 0"
         :min="-1"
         :max="1"
         :step="0.001"
@@ -182,7 +182,7 @@ const handleSelectableChange = (
 
       <x-select
         label="Animation mode"
-        :modelValue="config.animation_mode"
+        :modelValue="config.animation_mode ?? AnimationMode.ThreeD"
         :options="animationModeList"
         @update:modelValue="(newAnimationMode: AnimationMode) => (handleSelectableChange(newAnimationMode, 'animation_mode'))"
         tooltip="3D mode will attempt to string the images produced in a sequence of coherent outputs. (only 3D mode is supported at this time)"
@@ -190,7 +190,7 @@ const handleSelectableChange = (
 
       <x-number
         label="Diffusion cadence"
-        :modelValue="config.diffusion_cadence"
+        :modelValue="config.diffusion_cadence ?? 1"
         :min="1"
         :max="8"
         :step="1"
@@ -200,7 +200,7 @@ const handleSelectableChange = (
 
       <x-select
         label="Border"
-        :modelValue="config.border"
+        :modelValue="config.border ?? Border.Warp"
         :options="borderList"
         @update:modelValue="(newBorder: Border) => (handleSelectableChange(newBorder, 'border'))"
         tooltip="Controls handling method of pixels to be generated when the image is smaller than the frame. “Wrap” pulls pixels from the opposite edge of the image, while “Replicate” repeats the edge of the pixels, and extends them"
@@ -208,14 +208,14 @@ const handleSelectableChange = (
 
       <x-checkbox
         label="Use depth warping"
-        :modelValue="config.use_depth_warping"
+        :modelValue="config.use_depth_warping ?? true"
         @update:modelValue="(newUseDepthWarping: boolean) => (handleBooleanChange(newUseDepthWarping, 'use_depth_warping'))"
         tooltip="Enables instructions to warp an image dynamically in 3D mode only"
       ></x-checkbox>
 
       <x-number
         label="Midas weight"
-        :modelValue="config.midas_weight"
+        :modelValue="config.midas_weight ?? 0.3"
         :min="-1"
         :max="1"
         :step="0.001"
@@ -225,7 +225,7 @@ const handleSelectableChange = (
 
       <x-number
         label="Fov"
-        :modelValue="config.fov"
+        :modelValue="config.fov ?? 90"
         :min="-180"
         :max="180"
         :step="0.001"
@@ -239,7 +239,7 @@ const handleSelectableChange = (
 
       <x-select
         label="Padding mode"
-        :modelValue="config.padding_mode"
+        :modelValue="config.padding_mode ?? PaddingMode.Border"
         :options="paddingModeList"
         @update:modelValue="(newPaddingMode: PaddingMode) => (handleSelectableChange(newPaddingMode, 'padding_mode'))"
         tooltip="Instructs the handling of pixels outside the field of view as they come into the scene. ‘Border” will attempt to use the edges of the canvas as the pixels to be drawn. “Reflection” will attempt to approximate the image and tile/repeat pixels, whereas “Zeros” will not add any new pixel information"
@@ -247,7 +247,7 @@ const handleSelectableChange = (
 
       <x-select
         label="Sampling mode"
-        :modelValue="config.sampling_mode"
+        :modelValue="config.sampling_mode ?? SamplingMode.Bicubic"
         :options="samplingModeList"
         @update:modelValue="(newSamplingMode: SamplingMode) => (handleSelectableChange(newSamplingMode, 'sampling_mode'))"
         tooltip="Controls the sampling method of the image. ‘Nearest’ will use the nearest pixel to the center of the frame, while ‘Bilinear’ will use the average of the four nearest pixels to the center of the frame"
@@ -257,14 +257,14 @@ const handleSelectableChange = (
 
       <x-checkbox
         label="Resume from timestring"
-        :modelValue="config.resume_from_timestring"
+        :modelValue="config.resume_from_timestring ?? false"
         @update:modelValue="(newResumeFromTimestring: boolean) => (handleBooleanChange(newResumeFromTimestring, 'resume_from_timestring'))"
         tooltip="Instructs the run to start from a specified point"
       ></x-checkbox>
 
       <x-text
         label="Resume timestring"
-        :modelValue="config.resume_timestring"
+        :modelValue="config.resume_timestring ?? ''"
         @update:modelValue="(newResumeTimestring: string) => (handleStringChange(newResumeTimestring, 'resume_timestring'))"
         tooltip="The required timestamp to reference when resuming"
       ></x-text>
