@@ -26,6 +26,16 @@ function replaceValues(
   configJson.steps = config.steps;
   configJson.scale = config.scale;
   configJson.ddim_eta = config.ddim_eta;
+  configJson.diffusion_cadence = config.diffusion_cadence;
+  configJson.border = config.border;
+  configJson.use_depth_warping = config.use_depth_warping;
+  configJson.midas_weight = config.midas_weight;
+  configJson.fov = config.fov;
+  configJson.padding_mode = config.padding_mode;
+  configJson.sampling_mode = config.sampling_mode;
+  configJson.animation_mode = config.animation_mode;
+  configJson.resume_from_timestring = config.resume_from_timestring;
+  configJson.resume_timestring = config.resume_timestring;
 }
 
 function compileAnimationPrompts(

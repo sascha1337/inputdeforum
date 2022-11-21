@@ -3,7 +3,7 @@ defineProps({
   colors: {
     type: String,
     required: false,
-    default: "bg-blue-500 hover:bg-blue-700 text-white ",
+    default: "bg-blue-500 hover:bg-blue-700 text-white",
   },
 });
 </script>

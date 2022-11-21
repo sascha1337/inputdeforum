@@ -51,7 +51,7 @@ const downloadBackup = () => {
     <div class="flex flex-col space-y-2 mb-5">
       <h2 class="text-2xl font-bold mb-2">Load or save config</h2>
       <p class="text-gray-600 text-sm">
-        Every changes are automatically saved. ✨
+        Every changes are automatically saved in your browser storage. ✨
       </p>
       <ul class="text-gray-600 text-sm list-disc ml-6">
         <li>

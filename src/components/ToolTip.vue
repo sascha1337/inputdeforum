@@ -32,10 +32,10 @@ defineProps({
 
 .tooltip .tooltiptext {
   visibility: hidden;
-  width: 120px;
+  width: 180px;
   background-color: black;
   color: #fff;
-  text-align: justify;
+  text-align: left;
   border-radius: 6px;
   padding: 8px 10px;
   position: absolute;

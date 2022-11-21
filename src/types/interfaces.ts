@@ -1,4 +1,11 @@
-import { SeedBehavior, Sampler } from "./enums";
+import {
+  SeedBehavior,
+  Sampler,
+  AnimationMode,
+  PaddingMode,
+  SamplingMode,
+  Border,
+} from "./enums";
 
 export interface GlobalConfig {
   batch_name: string;
@@ -11,6 +18,16 @@ export interface GlobalConfig {
   scale: number;
   ddim_eta: number;
   frames: FrameContract[];
+  diffusion_cadence: number;
+  border: Border;
+  use_depth_warping: boolean;
+  midas_weight: number;
+  fov: number;
+  padding_mode: PaddingMode;
+  sampling_mode: SamplingMode;
+  animation_mode: AnimationMode;
+  resume_from_timestring: boolean;
+  resume_timestring: string;
 }
 
 export interface FrameContract {
