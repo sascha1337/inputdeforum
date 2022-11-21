@@ -15,7 +15,7 @@ defineProps({
   <div class="tooltip flex items-center">
     <span class="sr-only">ToolTip</span>
     <InformationCircleIcon class="h-5 w-5 cursor-pointer" aria-hidden="true" />
-    <span class="tooltiptext text-sm" :class="position">
+    <span class="tooltiptext text-sm font-normal" :class="position">
       <slot />
     </span>
   </div>

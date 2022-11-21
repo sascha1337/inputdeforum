@@ -184,7 +184,7 @@ const reorderFrames = () => {
       </div>
       <div class="flex space-x-2">
         <div id="hue" class="w-4 rounded"></div>
-        <div class="flex flex-col space-y-4">
+        <div class="flex flex-col space-y-4 w-full">
           <div
             class="grid grid-cols-12 gap-2 odd:bg-gray-50 even:bg-white rounded-md shadow p-2"
             v-for="(frame, index) in frameList"
