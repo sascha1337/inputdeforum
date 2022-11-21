@@ -3,6 +3,7 @@ import Frame from "../types/Frame";
 import XButton from "./inputs/XButton.vue";
 import XNumber from "./inputs/XNumber.vue";
 import XTextarea from "./inputs/XTextarea.vue";
+import ToolTip from "./ToolTip.vue";
 
 const emit = defineEmits([
   "update:frameList",
@@ -81,22 +82,96 @@ const reorderFrames = () => {
         class="flex space-x-2 sticky top-0 z-20 backdrop-blur-md py-4 px-6 -mx-4 shadow-md"
       >
         <div class="w-4"></div>
-        <div
-          class="grid grid-cols-12 gap-2 font-bold uppercase items-end w-full"
-        >
-          <div class="row-span-2">#</div>
-          <div class="col-span-3 row-span-2">Prompt</div>
-          <div class="row-span-2">Angle</div>
-          <div class="row-span-2">Zoom</div>
-          <div>X</div>
-          <div>Y</div>
-          <div>Z</div>
-          <div class="row-span-2">Noise</div>
-          <div class="row-span-2">Strength</div>
-          <div class="row-span-2">Contrast</div>
-          <div>3D X</div>
-          <div>3D Y</div>
-          <div>3D Z</div>
+        <div class="frames-header grid grid-cols-12 gap-2 items-end w-full">
+          <div class="flex items-center space-x-2 row-span-2">
+            <span>#</span>
+            <ToolTip position="right">
+              The frame id is used to determine the order of the frames.
+              Duplicate ids could cause unexpected behavior.
+            </ToolTip>
+          </div>
+          <div class="flex items-center space-x-2 col-span-3 row-span-2">
+            <span>Prompt</span>
+            <ToolTip position="right">
+              Prompt that will be use for frame generation.
+            </ToolTip>
+          </div>
+          <div class="flex items-center space-x-2 row-span-2">
+            <span>Angle</span>
+            <ToolTip position="right">
+              Operator to rotate canvas clockwise/anticlockwise in degrees per
+              frame
+            </ToolTip>
+          </div>
+          <div class="flex items-center space-x-2 row-span-2">
+            <span>Zoom</span>
+            <ToolTip position="right">
+              Operator that scales the canvas size, multiplicatively [static =
+              1.0]
+            </ToolTip>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span> X </span>
+            <ToolTip position="right">
+              Operator to move canvas left/right in pixels per frame
+            </ToolTip>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span> Y </span>
+            <ToolTip position="right">
+              Operator to move canvas up/down in pixels per frame
+            </ToolTip>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span> Z </span>
+            <ToolTip position="right">
+              Operator to move canvas in/out in pixels per frame
+            </ToolTip>
+          </div>
+
+          <div class="flex items-center space-x-2 row-span-2">
+            <span> Noise </span>
+            <ToolTip position="right">
+              Amount of graininess to add per frame for diffusion diversity
+            </ToolTip>
+          </div>
+
+          <div class="flex items-center space-x-2 row-span-2">
+            <span> Strength </span>
+            <ToolTip position="left">
+              Amount of presence of previous frame to influence next frame, also
+              controls steps in the following formula [steps -
+              (strength_schedule * steps)]
+            </ToolTip>
+          </div>
+
+          <div class="flex items-center space-x-2 row-span-2">
+            <span> Contrast </span>
+            <ToolTip position="left">
+              Adjusts the overall contrast per frame [default neutral at 1.0]
+            </ToolTip>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <span>3D X</span>
+            <ToolTip position="right">
+              Operator to tilt canvas up/down in degrees per frame
+            </ToolTip>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <span>3D Y</span>
+            <ToolTip position="right">
+              Operator to pan canvas left/right in degrees per frame
+            </ToolTip>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <span>3D Z</span>
+            <ToolTip position="right">
+              Operator to roll canvas clockwise/anticlockwise
+            </ToolTip>
+          </div>
         </div>
       </div>
       <div class="flex space-x-2">
