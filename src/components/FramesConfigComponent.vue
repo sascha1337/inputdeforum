@@ -92,60 +92,60 @@ const reorderFrames = () => {
         <div class="w-4"></div>
         <div class="frames-header grid grid-cols-12 gap-2 items-end w-full">
           <div class="flex items-center space-x-2 row-span-2">
-            <span>#</span>
+            <span class="uppercase font-bold">ID</span>
             <ToolTip position="right">
               The frame id is used to determine the order of the frames.
               Duplicate ids could cause unexpected behavior.
             </ToolTip>
           </div>
           <div class="flex items-center space-x-2 col-span-3 row-span-2">
-            <span>Prompt</span>
+            <span class="uppercase font-bold">Prompt</span>
             <ToolTip position="right">
               Prompt that will be use for frame generation.
             </ToolTip>
           </div>
           <div class="flex items-center space-x-2 row-span-2">
-            <span>Angle</span>
+            <span class="uppercase font-bold">Angle</span>
             <ToolTip position="right">
               Operator to rotate canvas clockwise/anticlockwise in degrees per
               frame
             </ToolTip>
           </div>
           <div class="flex items-center space-x-2 row-span-2">
-            <span>Zoom</span>
+            <span class="uppercase font-bold">Zoom</span>
             <ToolTip position="right">
               Operator that scales the canvas size, multiplicatively [static =
               1.0]
             </ToolTip>
           </div>
           <div class="flex items-center space-x-2">
-            <span> X </span>
+            <span class="uppercase font-bold"> X </span>
             <ToolTip position="right">
               Operator to move canvas left/right in pixels per frame
             </ToolTip>
           </div>
           <div class="flex items-center space-x-2">
-            <span> Y </span>
+            <span class="uppercase font-bold"> Y </span>
             <ToolTip position="right">
               Operator to move canvas up/down in pixels per frame
             </ToolTip>
           </div>
           <div class="flex items-center space-x-2">
-            <span> Z </span>
+            <span class="uppercase font-bold"> Z </span>
             <ToolTip position="right">
               Operator to move canvas in/out in pixels per frame
             </ToolTip>
           </div>
 
           <div class="flex items-center space-x-2 row-span-2">
-            <span> Noise </span>
+            <span class="uppercase font-bold"> Noise </span>
             <ToolTip position="right">
               Amount of graininess to add per frame for diffusion diversity
             </ToolTip>
           </div>
 
           <div class="flex items-center space-x-2 row-span-2">
-            <span> Strength </span>
+            <span class="uppercase font-bold"> Strength </span>
             <ToolTip position="left">
               Amount of presence of previous frame to influence next frame, also
               controls steps in the following formula [steps -
@@ -154,28 +154,28 @@ const reorderFrames = () => {
           </div>
 
           <div class="flex items-center space-x-2 row-span-2">
-            <span> Contrast </span>
+            <span class="uppercase font-bold"> Contrast </span>
             <ToolTip position="left">
               Adjusts the overall contrast per frame [default neutral at 1.0]
             </ToolTip>
           </div>
 
           <div class="flex items-center space-x-2">
-            <span>3D X</span>
+            <span class="uppercase font-bold">3D X</span>
             <ToolTip position="right">
               Operator to tilt canvas up/down in degrees per frame
             </ToolTip>
           </div>
 
           <div class="flex items-center space-x-2">
-            <span>3D Y</span>
+            <span class="uppercase font-bold">3D Y</span>
             <ToolTip position="right">
               Operator to pan canvas left/right in degrees per frame
             </ToolTip>
           </div>
 
           <div class="flex items-center space-x-2">
-            <span>3D Z</span>
+            <span class="uppercase font-bold">3D Z</span>
             <ToolTip position="right">
               Operator to roll canvas clockwise/anticlockwise
             </ToolTip>
@@ -299,7 +299,7 @@ const reorderFrames = () => {
             <div class="flex justify-end items-center col-span-3 space-x-4">
               <!-- add frame -->
               <XButton
-              colors="bg-gray-200 hover:bg-gray-300 text-gray-800"
+                colors="bg-gray-200 hover:bg-gray-300 text-gray-800"
                 @click="handleAddFrameBetween(index)"
                 title="Add a frame below this one"
               >
