@@ -109,8 +109,9 @@ onMounted(() => {
 <template>
   <div class="flex flex-col space-y-8 mx-4 my-4">
     <div class="flex flex-col space-y-2">
-      <h1 class="text-4xl font-serif mb-4">
-        🎨 <span class="underline">Deforum config generator</span>
+      <h1 class="text-4xl font-serif mb-4 flex items-center space-x-2">
+        <img class="h-20 w-20" src="/icon-128px.png" alt="Logo" />
+        <span class="underline">Deforum config generator</span>
       </h1>
       <p class="text-gray-600 text-sm">
         This tool will help you generate a config file for the
