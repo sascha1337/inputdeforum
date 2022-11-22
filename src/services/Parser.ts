@@ -26,7 +26,7 @@ export default class Parser {
 
   expression(): void {
     this.term();
-    this.expression();
+    this.expression1();
   }
 
   expression1(): void {
@@ -65,6 +65,11 @@ export default class Parser {
         this.factor();
         this.term1();
         break;
+      case TokenType.POWER:
+        this.nextToken();
+        this.factor();
+        this.term1();
+        break;
     }
   }
 
@@ -85,21 +90,39 @@ export default class Parser {
       case TokenType.T:
         this.nextToken();
         break;
+      case TokenType.SIN:
+        this.nextToken();
+        this.function();
+        break;
+      case TokenType.COS:
+        this.nextToken();
+        this.function();
+        break;
+      case TokenType.EOF:
+        break;
+      case TokenType.RIGHT_PAREN:
+        break;
       default:
         throw new Error(
-          `Unexpected token: ${this.currentToken?.type} at position ${this.currentIndex}`
+          `Unexpected token: '${this.currentToken?.type}' at position ${this.currentIndex}`
         );
     }
   }
 
+  function(): void {
+    this.match(TokenType.LEFT_PAREN);
+    this.expression();
+    this.match(TokenType.RIGHT_PAREN);
+  }
+
   match(expected: string): void {
-    if (this.text[this.currentIndex] === expected) {
+    if (this.text[this.currentIndex - 1] === expected) {
       this.nextToken();
     } else {
       throw new Error(
-        `Unexpected character: Expected ${expected} but found ${
+        `Unexpected character: Expected '${expected}' but found ${
           this.text[this.currentIndex]
-        } at index ${this.currentIndex}`
+        } at position ${this.currentIndex}`
       );
     }
   }
@@ -152,7 +175,7 @@ export default class Parser {
       }
 
       throw new Error(
-        `Unexpected token: ${result} at position ${this.currentIndex}`
+        `Unexpected token: '${result}' at position ${this.currentIndex}`
       );
     }
 
@@ -175,7 +198,7 @@ export default class Parser {
 
     // if the current character is none of the above throw an error
     throw new Error(
-      `Unexpected character: ${this.text[this.currentIndex]} at index ${
+      `Unexpected character: '${this.text[this.currentIndex]}' at position ${
         this.currentIndex
       }`
     );
@@ -206,9 +229,9 @@ export default class Parser {
       // if first char after dot is not a digit throw an error
       if (!this.isDigit(this.text[this.currentIndex + 1])) {
         throw new Error(
-          `Unexpected character: Expected digit but found ${
+          `Unexpected character: Expected digit but found '${
             this.text[this.currentIndex + 1]
-          } at index ${this.currentIndex + 1}`
+          }' at position ${this.currentIndex + 1}`
         );
       }
       result += this.text[this.currentIndex];

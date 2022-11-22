@@ -4,9 +4,17 @@ import { basicExpressionParsingStubs } from "./basic-expression-parsing-stubs";
 
 describe.each(basicExpressionParsingStubs)(
   "Expression parser",
-  ({ expression }) => {
-    it(`should parse ${expression} without error`, () => {
-      new Parser().parse(expression);
+  ({ expression, expected }) => {
+    it(`should parse ${expression} or throw an error`, () => {
+      try {
+        new Parser().parse(expression);
+      } catch (error) {
+        if (expected.length === 0) {
+          expect(error).toBeUndefined();
+        } else {
+          expect(error.message).toBe(expected[0]);
+        }
+      }
     });
   }
 );
