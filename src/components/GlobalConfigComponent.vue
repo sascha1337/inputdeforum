@@ -98,6 +98,7 @@ const handleSelectableChange = (
       <x-text
         label="Batch name"
         tooltip="The name of the batch. This will be used as folder name for the generated images"
+        :required="true"
         :modelValue="config.batch_name ?? 'default'"
         @update:modelValue="(newBatchName: string) => (handleStringChange(newBatchName, 'batch_name'))"
       ></x-text>
@@ -108,6 +109,7 @@ const handleSelectableChange = (
         :min="512"
         :max="2048"
         :step="1"
+        :required="true"
         @update:modelValue="(newWidth: number) => (handleNumberChange(newWidth, 'width'))"
         tooltip="The width of the generated images. [512, 2048]"
       ></x-number>
@@ -128,6 +130,7 @@ const handleSelectableChange = (
         :min="-1"
         :max="1000000"
         :step="1"
+        :required="true"
         @update:modelValue="(newSeed: number) => (handleNumberChange(newSeed, 'seed'))"
         tooltip="The seed used for the generation. If set to -1, a random seed will be used. [-1, 1000000]"
       ></x-number>
@@ -154,6 +157,7 @@ const handleSelectableChange = (
         :min="0"
         :max="1000"
         :step="1"
+        :required="true"
         @update:modelValue="(newSteps: number) => (handleNumberChange(newSteps, 'steps'))"
         tooltip="The number of steps used for the first generation. [0, 1000]"
       ></x-number>
@@ -164,6 +168,7 @@ const handleSelectableChange = (
         :min="0"
         :max="50"
         :step="1"
+        :required="true"
         @update:modelValue="(newScale: number) => (handleNumberChange(newScale, 'scale'))"
         tooltip="A measurement of how much enforcement to apply to an overall prompt. [0, 50]"
       ></x-number>
@@ -175,6 +180,7 @@ const handleSelectableChange = (
         :max="1"
         :step="0.001"
         @update:modelValue="(newDdimEta: number) => (handleNumberChange(newDdimEta, 'ddim_eta'))"
+        :required="true"
         tooltip="ONLY enabled in ddim sampler mode, will control a ratio of ddim to ddpm sampling methods, with a range of -1 to +1 with 0 being less randomized determinism. [-1, 1]"
       ></x-number>
 
@@ -194,6 +200,7 @@ const handleSelectableChange = (
         :min="1"
         :max="8"
         :step="1"
+        :required="true"
         @update:modelValue="(newDiffusionCadence: number) => (handleNumberChange(newDiffusionCadence, 'diffusion_cadence'))"
         tooltip="Controls the frequency of frames to be affected by diffusion [1-8]"
       ></x-number>
@@ -219,6 +226,7 @@ const handleSelectableChange = (
         :min="-1"
         :max="1"
         :step="0.001"
+        :required="true"
         @update:modelValue="(newMidasWeight: number) => (handleNumberChange(newMidasWeight, 'midas_weight'))"
         tooltip="Sets a midpoint at which a depthmap is to be drawn: range [-1 to +1]"
       ></x-number>
@@ -229,6 +237,7 @@ const handleSelectableChange = (
         :min="-180"
         :max="180"
         :step="0.001"
+        :required="true"
         @update:modelValue="(newFov: number) =>
       (handleNumberChange(newFov, 'fov'))"
         tooltip="Adjusts the scale at which a
