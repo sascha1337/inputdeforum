@@ -9,7 +9,7 @@ defineProps({
 </script>
 <template>
   <button
-    class="font-bold py-1 px-2 rounded-md text-xs shadow-sm hover:shadow-md transition-all"
+    class="outline-0 font-bold py-1 px-2 rounded-md text-xs shadow-sm hover:shadow-md transition-all"
     :class="colors"
   >
     <slot></slot>

@@ -325,6 +325,7 @@ const reorderFrames = () => {
         :min="1"
         :max="100"
         :step="1"
+        :required="true"
         label="Steps increment"
         @update:modelValue="(newStepIncrement: number) => $emit('user-config:step-increment-change', newStepIncrement)"
       ></XNumber>

@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import ToolTip from "../ToolTip.vue";
 
 const emits = defineEmits(["update:modelValue"]);
 
-defineProps({
+const props = defineProps({
   modelValue: {
     type: Number,
     required: false,
@@ -15,12 +16,10 @@ defineProps({
   min: {
     type: Number,
     required: false,
-    default: 0,
   },
   max: {
     type: Number,
     required: false,
-    default: 0,
   },
   step: {
     type: Number,
@@ -36,7 +35,14 @@ defineProps({
     required: false,
     default: "right",
   },
+  required: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
+
+const hasError = ref(false);
 
 const handleValueChange = (event: Event) => {
   const value: string = (event.target as HTMLInputElement).value;
@@ -46,7 +52,27 @@ const handleValueChange = (event: Event) => {
   } else {
     finalValue = Number(value);
   }
+  hasError.value = !validateValue(finalValue);
   emits("update:modelValue", finalValue);
+};
+
+const validateValue = (value: Number | undefined): boolean => {
+  if (props.required === true && value === undefined) {
+    return false;
+  } else if (value === undefined) {
+    return true;
+  }
+
+  if (isNaN(value!.valueOf())) {
+    return false;
+  }
+  if (props.min !== undefined && value! < props.min) {
+    return false;
+  }
+  if (props.max !== undefined && value! > props.max) {
+    return false;
+  }
+  return true;
 };
 </script>
 
@@ -56,14 +82,15 @@ const handleValueChange = (event: Event) => {
       v-if="label"
       :for="`x-number-${label.replaceAll(' ', '-').toLowerCase()}`"
       class="text-sm font-medium text-gray-700 w-1/5 text-right flex items-center justify-end space-x-2"
+      :class="{ 'text-red-500': hasError }"
       ><span>{{ label }}</span>
       <ToolTip v-if="tooltip" :position="tooltipPosition">{{
         tooltip
       }}</ToolTip>
     </label>
     <input
-      class="border border-gray-300 rounded-md px-2 py-1 flex-grow font-mono"
-      :class="{ 'w-full flex-grow-0': !label }"
+      class="outline-0 border border-gray-300 rounded-md px-2 py-1 flex-grow font-mono"
+      :class="{ 'w-full flex-grow-0': !label, 'border-red-500': hasError }"
       type="number"
       :id="`x-number-${label?.replaceAll(' ', '-').toLowerCase()}`"
       :value="modelValue"

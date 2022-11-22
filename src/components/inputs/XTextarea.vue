@@ -36,7 +36,7 @@ defineProps({
       }}</ToolTip>
     </label>
     <textarea
-      class="border border-gray-300 rounded-md px-2 py-1 w-full"
+      class="outline-0 border border-gray-300 rounded-md px-2 py-1 w-full"
       :id="`x-textarea-${label?.replaceAll(' ', '-').toLowerCase()}`"
       type="text"
       rows="2"
