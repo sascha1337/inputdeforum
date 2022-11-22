@@ -101,7 +101,7 @@ const reorderFrames = () => {
           <div class="flex items-center space-x-2 col-span-3 row-span-2">
             <span class="uppercase font-bold">Prompt</span>
             <ToolTip position="right">
-              Prompt that will be use for frame generation.
+              Prompt that will be use for frame generation. [max 75 clip tokens]
             </ToolTip>
           </div>
           <div class="flex items-center space-x-2 row-span-2">
@@ -201,6 +201,7 @@ const reorderFrames = () => {
             <XTextarea
               class="col-span-3 row-span-2"
               :modelValue="(frame as Frame).prompt"
+              :maxTokenCount="75"
               @update:modelValue="(newPrompt: string) => (handlePromptChange(newPrompt, index))"
             ></XTextarea>
 

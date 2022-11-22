@@ -27,10 +27,6 @@ const props = defineProps({
     required: false,
     default: false,
   },
-  maxTokenCount: {
-    type: Number,
-    required: false,
-  },
 });
 
 const hasError = ref(false);
@@ -45,9 +41,6 @@ const validateValue = (value: string): boolean => {
   if (props.required === true && value === "") {
     return false;
   }
-  if (props.maxTokenCount && value.split(" ").length > props.maxTokenCount) {
-    return false;
-  }
   return true;
 };
 </script>
@@ -56,7 +49,7 @@ const validateValue = (value: string): boolean => {
   <div class="flex space-x-4 items-start" :class="{ 'items-center': label }">
     <label
       v-if="label"
-      :for="`x-textarea-${label.replaceAll(' ', '-').toLowerCase()}`"
+      :for="`x-text-${label.replaceAll(' ', '-').toLowerCase()}`"
       class="text-sm font-medium text-gray-700 w-1/5 text-right flex items-center justify-end space-x-2"
       :class="{ 'text-red-500': hasError }"
       ><span>{{ label }}</span>
@@ -64,15 +57,13 @@ const validateValue = (value: string): boolean => {
         tooltip
       }}</ToolTip>
     </label>
-    <textarea
-      class="outline-0 border border-gray-300 rounded-md px-2 py-1 w-full"
-      :id="`x-textarea-${label?.replaceAll(' ', '-').toLowerCase()}`"
+    <input
+      class="outline-0 border border-gray-300 rounded-md px-2 py-1 flex-grow"
+      :class="{ 'w-full flex-grow-0': !label, 'border-red-500': hasError }"
       type="text"
-      rows="2"
-      :class="{ 'border-red-500': hasError }"
+      :id="`x-text-${label?.replaceAll(' ', '-').toLowerCase()}`"
       :value="modelValue"
       @input="handleValueChange"
-    >
-    </textarea>
+    />
   </div>
 </template>
