@@ -36,6 +36,7 @@ function replaceValues(
   configJson.animation_mode = config.animation_mode;
   configJson.resume_from_timestring = config.resume_from_timestring;
   configJson.resume_timestring = config.resume_timestring;
+  configJson.max_frames = config.frames[config.frames.length - 1].id;
 }
 
 function compileAnimationPrompts(
