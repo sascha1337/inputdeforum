@@ -4,7 +4,7 @@ export default class Frame implements FrameContract {
   id: number;
   prompt: string | undefined;
   angle: number | undefined;
-  zoom: number | undefined;
+  zoom: string | undefined;
   translation_x: number | undefined;
   translation_y: number | undefined;
   translation_z: number | undefined;

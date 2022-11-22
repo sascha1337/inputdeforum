@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import Expression from "../../services/Parserrserr
 import ToolTip from "../ToolTip.vue";
 
 const emits = defineEmits(["update:modelValue"]);
@@ -41,6 +42,7 @@ const validateValue = (value: string): boolean => {
   if (props.required === true && value === "") {
     return false;
   }
+  new Expression(value).validate();
   return true;
 };
 </script>

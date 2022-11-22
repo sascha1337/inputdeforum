@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Frame from "../types/Frame";
 import XButton from "./inputs/XButton.vue";
+import XExpression from "./inputs/XExpression.vue";
 import XNumber from "./inputs/XNumber.vue";
 import XTextarea from "./inputs/XTextarea.vue";
 import ToolTip from "./ToolTip.vue";
@@ -40,7 +41,7 @@ const handleNumberChange = (
   index: number,
   key: NumberFrameKeys
 ) => {
-  (props.frameList[index] as Frame)[key] = value;
+  ((props.frameList[index] as Frame)[key] as number) = value;
   emit("update:frameList", props.frameList);
 };
 
@@ -214,14 +215,14 @@ const reorderFrames = () => {
               @update:modelValue="(newAngle: number) => (handleNumberChange(newAngle, index, 'angle'))"
             ></XNumber>
 
-            <XNumber
+            <XExpression
               class="row-span-2"
               :modelValue="(frame as Frame).zoom"
               :min="0"
               :max="100"
               :step="0.001"
               @update:modelValue="(newZoom: number) => (handleNumberChange(newZoom, index, 'zoom'))"
-            ></XNumber>
+            ></XExpression>
 
             <XNumber
               :modelValue="(frame as Frame).translation_x"
