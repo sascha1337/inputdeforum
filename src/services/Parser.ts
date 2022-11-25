@@ -11,8 +11,12 @@ export default class Parser {
     this.currentIndex = 0;
   }
 
-  validate(): boolean {
-    return false;
+  validate(text: string): string | undefined {
+    try {
+      this.parse(text);
+    } catch (error) {
+      return (error as Error).message;
+    }
   }
 
   parse(text: string): void {
@@ -92,11 +96,11 @@ export default class Parser {
         break;
       case TokenType.SIN:
         this.nextToken();
-        this.function();
+        this.expression();
         break;
       case TokenType.COS:
         this.nextToken();
-        this.function();
+        this.expression();
         break;
       case TokenType.EOF:
         break;
@@ -109,20 +113,14 @@ export default class Parser {
     }
   }
 
-  function(): void {
-    this.match(TokenType.LEFT_PAREN);
-    this.expression();
-    this.match(TokenType.RIGHT_PAREN);
-  }
-
   match(expected: string): void {
     if (this.text[this.currentIndex - 1] === expected) {
       this.nextToken();
     } else {
       throw new Error(
-        `Unexpected character: Expected '${expected}' but found ${
-          this.text[this.currentIndex]
-        } at position ${this.currentIndex}`
+        `Unexpected character: Expected '${expected}' but found '${
+          this.text[this.currentIndex] ?? "EOF"
+        }' at position ${this.currentIndex}`
       );
     }
   }

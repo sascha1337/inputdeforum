@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import Frame from "../types/Frame";
 import XButton from "./inputs/XButton.vue";
 import XExpression from "./inputs/XExpression.vue";
 import XNumber from "./inputs/XNumber.vue";
 import XTextarea from "./inputs/XTextarea.vue";
 import ToolTip from "./ToolTip.vue";
+import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 
 const emit = defineEmits([
   "update:frameList",
@@ -22,6 +24,13 @@ const props = defineProps({
     required: true,
   },
 });
+
+interface ErrorMessage {
+  message: string;
+  input: HTMLInputElement;
+}
+
+const errors = ref<Map<number, Map<string, ErrorMessage>>>(new Map());
 
 type NumberFrameKeys =
   | keyof Pick<Frame, "id">
@@ -70,6 +79,25 @@ const reorderFrames = () => {
   });
   emit("update:frameList", props.frameList);
 };
+
+const handleErrorMessage = (
+  message: string | undefined,
+  input: HTMLInputElement,
+  index: number,
+  key: NumberFrameKeys
+) => {
+  if (message === undefined) {
+    errors.value.get(index)?.delete(key);
+    if (errors.value.get(index)?.size === 0) {
+      errors.value.delete(index);
+    }
+  } else {
+    if (errors.value.get(index) === undefined) {
+      errors.value.set(index, new Map());
+    }
+    errors.value.get(index)?.set(key, { message, input });
+  }
+};
 </script>
 
 <template>
@@ -84,6 +112,36 @@ const reorderFrames = () => {
         Reindexing will change the id of each frame to a multiple of the step
         increment parameter.
       </p>
+    </div>
+
+    <div v-show="errors.size > 0" class="rounded-md shadow">
+      <ul class="flex flex-col">
+        <li
+          v-for="frame in errors.keys()"
+          class="even:bg-red-100 odd:bg-red-50 p-2 flex flex-col space-y-2"
+        >
+          <div
+            class="flex justify-between items-center"
+            v-for="error in errors.get(frame)?.keys()"
+          >
+            <div class="text-red-500 text-sm flex space-x-2">
+              <ExclamationTriangleIcon class="h-5 w-5" />
+              <div>
+                {{ errors.get(frame)?.get(error)?.message }}
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <div class="text-xs text-red-500">#{{ frame }}:{{ error }}</div>
+              <XButton
+                @click="errors.get(frame)?.get(error)?.input.focus()"
+                colors="bg-red-300 hover:bg-red-400 text-white"
+              >
+                Focus
+              </XButton>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
 
     <div class="flex flex-col space-y-4">
@@ -206,14 +264,15 @@ const reorderFrames = () => {
               @update:modelValue="(newPrompt: string) => (handlePromptChange(newPrompt, index))"
             ></XTextarea>
 
-            <XNumber
+            <XExpression
               class="row-span-2"
               :modelValue="(frame as Frame).angle"
               :min="0"
               :max="360"
               :step="0.001"
+              @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'angle')"
               @update:modelValue="(newAngle: number) => (handleNumberChange(newAngle, index, 'angle'))"
-            ></XNumber>
+            ></XExpression>
 
             <XExpression
               class="row-span-2"
@@ -221,94 +280,104 @@ const reorderFrames = () => {
               :min="0"
               :max="100"
               :step="0.001"
+              @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'zoom')"
               @update:modelValue="(newZoom: number) => (handleNumberChange(newZoom, index, 'zoom'))"
             ></XExpression>
 
-            <XNumber
+            <XExpression
               :modelValue="(frame as Frame).translation_x"
               :min="-100"
               :max="100"
               :step="0.001"
+              @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'translation_x')"
               @update:modelValue="(newTranslationX: number) => (handleNumberChange(newTranslationX, index, 'translation_x'))"
-            ></XNumber>
+            ></XExpression>
 
-            <XNumber
+            <XExpression
               :modelValue="(frame as Frame).translation_y"
               :min="-100"
               :max="100"
               :step="0.001"
+              @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'translation_y')"
               @update:modelValue="(newTranslationY: number) => (handleNumberChange(newTranslationY, index, 'translation_y'))"
-            ></XNumber>
+            ></XExpression>
 
-            <XNumber
+            <XExpression
               :modelValue="(frame as Frame).translation_z"
               :min="-100"
               :max="100"
               :step="0.001"
+              @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'translation_z')"
               @update:modelValue="(newTranslationZ: number) => (handleNumberChange(newTranslationZ, index, 'translation_z'))"
-            ></XNumber>
+            ></XExpression>
 
-            <XNumber
+            <XExpression
               class=""
               :modelValue="(frame as Frame).noise_schedule"
               :min="0"
               :max="100"
               :step="0.001"
+              @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'noise_schedule')"
               @update:modelValue="(newNoiseSchedule: number) => (handleNumberChange(newNoiseSchedule, index, 'noise_schedule'))"
-            ></XNumber>
+            ></XExpression>
 
-            <XNumber
+            <XExpression
               class=""
               :modelValue="(frame as Frame).strength_schedule"
               :min="0"
               :max="100"
               :step="0.001"
+              @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'strength_schedule')"
               @update:modelValue="(newStrengthSchedule: number) => (handleNumberChange(newStrengthSchedule, index, 'strength_schedule'))"
-            ></XNumber>
+            ></XExpression>
 
-            <XNumber
+            <XExpression
               class=""
               :modelValue="(frame as Frame).contrast_schedule"
               :min="0"
               :max="100"
               :step="0.001"
+              @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'contrast_schedule')"
               @update:modelValue="(newContrastSchedule: number) => (handleNumberChange(newContrastSchedule, index, 'contrast_schedule'))"
-            ></XNumber>
+            ></XExpression>
 
-            <XNumber
+            <XExpression
               :modelValue="(frame as Frame).rotation_3d_x"
               :min="-100"
               :max="100"
               :step="0.001"
+              @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'rotation_3d_x')"
               @update:modelValue="(newRotation3dX: number) => (handleNumberChange(newRotation3dX, index, 'rotation_3d_x'))"
-            ></XNumber>
+            ></XExpression>
 
-            <XNumber
+            <XExpression
               :modelValue="(frame as Frame).rotation_3d_y"
               :min="-100"
               :max="100"
               :step="0.001"
+              @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'rotation_3d_y')"
               @update:modelValue="(newRotation3dY: number) => (handleNumberChange(newRotation3dY, index, 'rotation_3d_y'))"
-            ></XNumber>
+            ></XExpression>
 
-            <XNumber
+            <XExpression
               :modelValue="(frame as Frame).rotation_3d_z"
               :min="-100"
               :max="100"
               :step="0.001"
+              @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'rotation_3d_z')"
               @update:modelValue="(newRotation3dZ: number) => (handleNumberChange(newRotation3dZ, index, 'rotation_3d_z'))"
-            ></XNumber>
+            ></XExpression>
             <div class="flex justify-end items-center col-span-3 space-x-4">
               <!-- add frame -->
               <XButton
-                colors="bg-gray-200 hover:bg-gray-300 text-gray-800"
+                colors="bg-gray-200 hover:bg-gray-300 text-gray-800 focus:ring-gray-200"
                 @click="handleAddFrameBetween(index)"
                 title="Add a frame below this one"
               >
                 Add frame
               </XButton>
               <XButton
-                colors="bg-gray-200 hover:bg-gray-300 text-gray-800"
+                colors="bg-gray-200 hover:bg-gray-300 text-gray-800 focus:ring-gray-200"
                 @click="handleDelete(index)"
                 title="Delete this frame"
               >

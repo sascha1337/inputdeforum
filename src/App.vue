@@ -15,7 +15,8 @@ const userConfig: Ref<UserConfig> = ref(new UserConfig());
 const configNames: Ref<string[]> = ref(LocalStorage.getConfigNames());
 const selectedConfigName: Ref<string> = ref("");
 const isSaveNotificationVisible: Ref<boolean> = ref(false);
-const saveNotificationTimeout: Ref<number | null> = ref(null);
+const saveNotificationTimeout: Ref<ReturnType<typeof setTimeout> | null> =
+  ref(null);
 
 const onConfigChange = () => {
   if (selectedConfigName.value) {

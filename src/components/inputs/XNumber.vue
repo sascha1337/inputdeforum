@@ -89,8 +89,13 @@ const validateValue = (value: Number | undefined): boolean => {
       }}</ToolTip>
     </label>
     <input
-      class="outline-0 border border-gray-300 rounded-md px-2 py-1 flex-grow font-mono"
-      :class="{ 'w-full flex-grow-0': !label, 'border-red-500': hasError }"
+      class="border border-gray-300 rounded-md px-2 py-1 flex-grow font-mono focus:ring-2 focus:ring-offset-2 focus:outline-none"
+      :class="{
+        'w-full flex-grow-0': !label,
+        'border-red-500': hasError,
+        'focus:ring-blue-500': !hasError,
+        'focus:ring-red-500': hasError,
+      }"
       type="number"
       :id="`x-number-${label?.replaceAll(' ', '-').toLowerCase()}`"
       :value="modelValue"

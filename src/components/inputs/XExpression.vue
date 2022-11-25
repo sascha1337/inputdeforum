@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import Expression from "../../services/Parserrserr
+import Parser from "../../services/Parser";
 import ToolTip from "../ToolTip.vue";
 
-const emits = defineEmits(["update:modelValue"]);
+const emits = defineEmits(["update:modelValue", "error:change"]);
 
 const props = defineProps({
   modelValue: {
@@ -34,16 +34,18 @@ const hasError = ref(false);
 
 const handleValueChange = (event: Event) => {
   const value: string = (event.target as HTMLInputElement).value;
-  hasError.value = !validateValue(value);
+  const errorMessage = validateValue(value);
+  hasError.value = errorMessage !== undefined;
+  emits("error:change", errorMessage, event.target as HTMLInputElement);
   emits("update:modelValue", value);
 };
 
-const validateValue = (value: string): boolean => {
+const validateValue = (value: string): string | undefined => {
   if (props.required === true && value === "") {
-    return false;
+    return undefined;
   }
-  new Expression(value).validate();
-  return true;
+
+  return new Parser().validate(value);
 };
 </script>
 
@@ -60,8 +62,13 @@ const validateValue = (value: string): boolean => {
       }}</ToolTip>
     </label>
     <input
-      class="outline-0 border border-gray-300 rounded-md px-2 py-1 flex-grow"
-      :class="{ 'w-full flex-grow-0': !label, 'border-red-500': hasError }"
+      class="border border-gray-300 rounded-md px-2 py-1 flex-grow focus:ring-2 focus:ring-offset-2 focus:outline-none"
+      :class="{
+        'w-full flex-grow-0': !label,
+        'border-red-500': hasError,
+        'focus:ring-blue-500': !hasError,
+        'focus:ring-red-500': hasError,
+      }"
       type="text"
       :id="`x-text-${label?.replaceAll(' ', '-').toLowerCase()}`"
       :value="modelValue"

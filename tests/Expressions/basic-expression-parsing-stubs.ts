@@ -73,7 +73,13 @@ export const basicExpressionParsingStubs = [
   {
     expression: "1 * (2.5 / 3",
     expected: [
-      "Unexpected character: Expected ')' but found undefined at position 12",
+      "Unexpected character: Expected ')' but found 'EOF' at position 12",
+    ],
+  },
+  {
+    expression: "(1 * (2.5 / 3)",
+    expected: [
+      "Unexpected character: Expected ')' but found 'EOF' at position 12",
     ],
   },
   {
@@ -81,5 +87,43 @@ export const basicExpressionParsingStubs = [
     expected: [
       "Unexpected character: Expected digit but found ' ' at position 7",
     ],
+  },
+  {
+    expression: "sin 1",
+    expected: [
+      "Unexpected character: Expected '(' but found ' ' at position 4",
+    ],
+  },
+  {
+    expression: "sin1",
+    expected: [
+      "Unexpected character: Expected '(' but found '1' at position 4",
+    ],
+  },
+  {
+    expression: "sin(1",
+    expected: [
+      "Unexpected character: Expected ')' but found 'EOF' at position 5",
+    ],
+  },
+  {
+    expression: "2++2",
+    expected: ["Unexpected token: '+' at position 3"],
+  },
+  {
+    expression: "+2",
+    expected: ["Unexpected token: '+' at position 1"],
+  },
+  {
+    expression: "2",
+    expected: [],
+  },
+  {
+    expression: "2.03232",
+    expected: [],
+  },
+  {
+    expression: "2+2+2",
+    expected: [],
   },
 ];

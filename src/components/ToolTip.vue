@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { InformationCircleIcon } from "@heroicons/vue/20/solid";
+import { InformationCircleIcon } from "@heroicons/vue/24/outline";
 
 defineProps({
   position: {

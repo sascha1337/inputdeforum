@@ -58,8 +58,13 @@ const validateValue = (value: string): boolean => {
       }}</ToolTip>
     </label>
     <input
-      class="outline-0 border border-gray-300 rounded-md px-2 py-1 flex-grow"
-      :class="{ 'w-full flex-grow-0': !label, 'border-red-500': hasError }"
+      class="border border-gray-300 rounded-md px-2 py-1 flex-grow focus:ring-2 focus:ring-offset-2 focus:outline-none"
+      :class="{
+        'w-full flex-grow-0': !label,
+        'border-red-500': hasError,
+        'focus:ring-blue-500': !hasError,
+        'focus:ring-red-500': hasError,
+      }"
       type="text"
       :id="`x-text-${label?.replaceAll(' ', '-').toLowerCase()}`"
       :value="modelValue"

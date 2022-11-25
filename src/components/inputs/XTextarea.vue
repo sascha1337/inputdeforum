@@ -65,11 +65,15 @@ const validateValue = (value: string): boolean => {
       }}</ToolTip>
     </label>
     <textarea
-      class="outline-0 border border-gray-300 rounded-md px-2 py-1 w-full"
+      class="border border-gray-300 rounded-md px-2 py-1 w-full focus:ring-2 focus:ring-offset-2 focus:outline-none"
+      :class="{
+        'border-red-500': hasError,
+        'focus:ring-blue-500': !hasError,
+        'focus:ring-red-500': hasError,
+      }"
       :id="`x-textarea-${label?.replaceAll(' ', '-').toLowerCase()}`"
       type="text"
       rows="2"
-      :class="{ 'border-red-500': hasError }"
       :value="modelValue"
       @input="handleValueChange"
     >
