@@ -30,4 +30,21 @@ export default class Frame implements FrameContract {
     this.strength_schedule = undefined;
     this.contrast_schedule = undefined;
   }
+
+  static createFirstFrame(): Frame {
+    const frame = new Frame();
+    frame.prompt = "Enter your prompt here";
+    frame.angle = "0";
+    frame.zoom = "1";
+    frame.translation_x = "0";
+    frame.translation_y = "0";
+    frame.translation_z = "0";
+    frame.rotation_3d_x = "0";
+    frame.rotation_3d_y = "0";
+    frame.rotation_3d_z = "0";
+    frame.noise_schedule = "0.02";
+    frame.strength_schedule = "0.65";
+    frame.contrast_schedule = "1";
+    return frame;
+  }
 }

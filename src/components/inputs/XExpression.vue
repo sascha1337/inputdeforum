@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import Parser from "../../services/Parser";
 import ToolTip from "../ToolTip.vue";
 
@@ -31,6 +31,8 @@ const props = defineProps({
 
 const hasError = ref(false);
 
+const input = ref(null);
+
 const handleValueChange = (event: Event) => {
   const value: string = (event.target as HTMLInputElement).value;
   const errorMessage = validateValue(value);
@@ -44,8 +46,20 @@ const validateValue = (value: string): string | undefined => {
     return undefined;
   }
 
+  if (value === undefined) {
+    return undefined;
+  }
+
   return new Parser().validate(value);
 };
+
+onMounted(() => {
+  const value: string = props.modelValue as string;
+  const errorMessage = validateValue(value);
+  hasError.value = errorMessage !== undefined;
+  emits("error:change", errorMessage, input.value);
+  emits("update:modelValue", value);
+});
 </script>
 
 <template>
@@ -61,12 +75,13 @@ const validateValue = (value: string): string | undefined => {
       }}</ToolTip>
     </label>
     <input
-      class="border border-gray-300 rounded-md px-2 py-1 flex-grow focus:ring-2 focus:ring-offset-2 focus:outline-none"
+      class="border border-gray-300 rounded px-2 py-1 flex-grow focus:ring-2 focus:ring-offset-0 focus:outline-none font-mono"
+      ref="input"
       :class="{
         'w-full flex-grow-0': !label,
         'border-red-500': hasError,
-        'focus:ring-blue-500': !hasError,
-        'focus:ring-red-500': hasError,
+        'focus:ring-blue-300': !hasError,
+        'focus:ring-red-300': hasError,
       }"
       type="text"
       :id="`x-text-${label?.replaceAll(' ', '-').toLowerCase()}`"

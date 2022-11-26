@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeMount, ref, Ref, watch } from "vue";
+import { ref, Ref } from "vue";
 import { LocalStorage } from "../services/LocalStorage";
 import XButton from "./inputs/XButton.vue";
 import XSelect from "./inputs/XSelect.vue";

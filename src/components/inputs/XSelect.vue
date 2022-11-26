@@ -45,7 +45,7 @@ defineProps({
       }}</ToolTip>
     </label>
     <select
-      class="border border-gray-300 rounded-md px-2 py-1 flex-grow focus:ring-blue-500 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+      class="border border-gray-300 rounded px-2 py-1 flex-grow focus:ring-blue-300 focus:ring-2 focus:ring-offset-0 focus:outline-none"
       :class="{ 'w-full flex-grow-0': !label }"
       :id="`x-select-${label?.replaceAll(' ', '-').toLowerCase()}`"
       :value="modelValue"

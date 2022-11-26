@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Ref, ref } from "vue";
+import { ref } from "vue";
 import Frame from "../types/Frame";
 import XButton from "./inputs/XButton.vue";
 import XExpression from "./inputs/XExpression.vue";
@@ -90,7 +90,7 @@ const handleErrorMessage = (
   message: string | undefined,
   input: HTMLInputElement,
   index: number,
-  key: NumberFrameKeys
+  key: string
 ) => {
   if (message === undefined) {
     errors.value.get(index)?.delete(key);
@@ -121,6 +121,12 @@ const handleIsExpressionModeEnabled = (value: boolean) => {
       <p class="text-gray-600 text-sm">
         Reindexing will change the id of each frame to a multiple of the step
         increment parameter.
+      </p>
+      <p class="text-gray-600 text-sm">
+        If the math expression mode is enabled, you can type expressions like
+        "-0.35*(cos(3.141*t/25)**100)+0.8". The "t" magic variable will be
+        replaced by the currently rendered frame id at execution. See Deforum
+        documentation for further information.
       </p>
     </div>
 
@@ -156,9 +162,9 @@ const handleIsExpressionModeEnabled = (value: boolean) => {
 
     <div class="flex flex-col space-y-4">
       <div
-        class="flex space-x-2 sticky top-0 z-20 backdrop-blur-md py-4 px-6 -mx-4 shadow-md"
+        class="flex space-x-2 sticky top-0 z-20 backdrop-blur-md py-4 -mx-4 shadow-md"
       >
-        <div class="w-4"></div>
+        <div class="w-12"></div>
         <div class="frames-header grid grid-cols-12 gap-2 items-end w-full">
           <div class="flex items-center space-x-2 row-span-2">
             <span class="uppercase font-bold">ID</span>
@@ -274,6 +280,7 @@ const handleIsExpressionModeEnabled = (value: boolean) => {
               :modelValue="(frame as Frame).prompt"
               :maxTokenCount="75"
               @update:modelValue="(newPrompt: string) => (handlePromptChange(newPrompt, index))"
+              @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'prompt')"
             ></XTextarea>
 
             <component

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onUpdated, ref } from "vue";
 import ToolTip from "../ToolTip.vue";
 
 const emits = defineEmits(["update:modelValue"]);
@@ -73,6 +73,11 @@ const validateValue = (value: Number | undefined): boolean => {
   }
   return true;
 };
+
+onUpdated(() => {
+  const value: number = props.modelValue as number;
+  hasError.value = !validateValue(value);
+});
 </script>
 
 <template>
@@ -88,12 +93,12 @@ const validateValue = (value: Number | undefined): boolean => {
       }}</ToolTip>
     </label>
     <input
-      class="border border-gray-300 rounded-md px-2 py-1 flex-grow font-mono focus:ring-2 focus:ring-offset-2 focus:outline-none"
+      class="border border-gray-300 rounded px-2 py-1 flex-grow font-mono focus:ring-2 focus:ring-offset-0 focus:outline-none"
       :class="{
         'w-full flex-grow-0': !label,
         'border-red-500': hasError,
-        'focus:ring-blue-500': !hasError,
-        'focus:ring-red-500': hasError,
+        'focus:ring-blue-300': !hasError,
+        'focus:ring-red-300': hasError,
       }"
       type="number"
       :id="`x-number-${label?.replaceAll(' ', '-').toLowerCase()}`"

@@ -41,7 +41,7 @@ export default class Config implements GlobalConfig {
     this.steps = 100;
     this.scale = 8;
     this.ddim_eta = 0;
-    this.frames = [new Frame()];
+    this.frames = [Frame.createFirstFrame()];
     this.diffusion_cadence = 1;
     this.border = Border.Warp;
     this.use_depth_warping = true;
