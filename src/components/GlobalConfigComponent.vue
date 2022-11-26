@@ -91,13 +91,13 @@ const handleSelectableChange = (
     <div class="flex flex-col space-y-2 mb-5">
       <h2 class="text-2xl font-bold mb-2">Global config</h2>
       <p class="text-gray-600 text-sm">
-        Please refer to Deforum documentation for further details
+        Only 3D animation mode is supported. Please refer to Deforum documentation for further details.
       </p>
     </div>
     <div class="flex flex-col space-y-4 bg-gray-50 rounded-md shadow p-2">
       <x-text
         label="Batch name"
-        tooltip="The name of the batch. This will be used as folder name for the generated images"
+        tooltip="The name of the batch. This will be used as folder name for the generated images [required]"
         :required="true"
         :modelValue="config.batch_name ?? 'default'"
         @update:modelValue="(newBatchName: string) => (handleStringChange(newBatchName, 'batch_name'))"
@@ -120,6 +120,7 @@ const handleSelectableChange = (
         :min="512"
         :max="2048"
         :step="1"
+        :required="true"
         @update:modelValue="(newHeight: number) => (handleNumberChange(newHeight, 'height'))"
         tooltip="The height of the generated images. [512, 2048]"
       ></x-number>

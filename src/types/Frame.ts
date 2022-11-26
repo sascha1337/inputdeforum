@@ -3,17 +3,17 @@ import type { FrameContract } from "./interfaces";
 export default class Frame implements FrameContract {
   id: number;
   prompt: string | undefined;
-  angle: number | undefined;
-  zoom: number | undefined;
-  translation_x: number | undefined;
-  translation_y: number | undefined;
-  translation_z: number | undefined;
-  rotation_3d_x: number | undefined;
-  rotation_3d_y: number | undefined;
-  rotation_3d_z: number | undefined;
-  noise_schedule: number | undefined;
-  strength_schedule: number | undefined;
-  contrast_schedule: number | undefined;
+  angle: string | undefined;
+  zoom: string | undefined;
+  translation_x: string | undefined;
+  translation_y: string | undefined;
+  translation_z: string | undefined;
+  rotation_3d_x: string | undefined;
+  rotation_3d_y: string | undefined;
+  rotation_3d_z: string | undefined;
+  noise_schedule: string | undefined;
+  strength_schedule: string | undefined;
+  contrast_schedule: string | undefined;
 
   constructor(id: number = 0) {
     this.id = id;
@@ -29,5 +29,22 @@ export default class Frame implements FrameContract {
     this.noise_schedule = undefined;
     this.strength_schedule = undefined;
     this.contrast_schedule = undefined;
+  }
+
+  static createFirstFrame(): Frame {
+    const frame = new Frame();
+    frame.prompt = "Enter your prompt here";
+    frame.angle = "0";
+    frame.zoom = "1";
+    frame.translation_x = "0";
+    frame.translation_y = "0";
+    frame.translation_z = "0";
+    frame.rotation_3d_x = "0";
+    frame.rotation_3d_y = "0";
+    frame.rotation_3d_z = "0";
+    frame.noise_schedule = "0.02";
+    frame.strength_schedule = "0.65";
+    frame.contrast_schedule = "1";
+    return frame;
   }
 }

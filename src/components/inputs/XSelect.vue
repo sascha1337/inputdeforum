@@ -20,6 +20,11 @@ defineProps({
     type: String,
     required: false,
   },
+  nullable: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
   tooltipPosition: {
     type: String,
     required: false,
@@ -40,14 +45,16 @@ defineProps({
       }}</ToolTip>
     </label>
     <select
-      class="outline-0 border border-gray-300 rounded-md px-2 py-1 flex-grow"
+      class="border border-gray-300 rounded px-2 py-1 flex-grow focus:ring-blue-300 focus:ring-2 focus:ring-offset-0 focus:outline-none"
       :class="{ 'w-full flex-grow-0': !label }"
       :id="`x-select-${label?.replaceAll(' ', '-').toLowerCase()}`"
       :value="modelValue"
+      autocomplete="off"
       @input="
         $emit('update:modelValue', ($event.target as HTMLInputElement).value)
       "
     >
+      <option v-if="nullable" placeholder="None" value="" selected>None</option>
       <option v-for="option in options" :value="option">
         {{ option }}
       </option>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { CheckCircleIcon } from "@heroicons/vue/24/outline";
-import { XMarkIcon } from "@heroicons/vue/20/solid";
+import { CheckCircleIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 
 defineEmits(["save-notification:close"]);
 

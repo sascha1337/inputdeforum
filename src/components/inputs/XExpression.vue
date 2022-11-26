@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { onUpdated, ref } from "vue";
+import { onMounted, ref } from "vue";
+import Parser from "../../services/Parser";
 import ToolTip from "../ToolTip.vue";
 
 const emits = defineEmits(["update:modelValue", "error:change"]);
 
 const props = defineProps({
   modelValue: {
-    type: String,
     required: false,
   },
   label: {
@@ -27,43 +27,38 @@ const props = defineProps({
     required: false,
     default: false,
   },
-  maxTokenCount: {
-    type: Number,
-    required: false,
-  },
 });
 
 const hasError = ref(false);
 
+const input = ref(null);
+
 const handleValueChange = (event: Event) => {
   const value: string = (event.target as HTMLInputElement).value;
-  hasError.value = !validateValue(value);
-  emits(
-    "error:change",
-    hasError.value ? "Max prompt size exceeded" : undefined,
-    event.target as HTMLInputElement
-  );
+  const errorMessage = validateValue(value);
+  hasError.value = errorMessage !== undefined;
+  emits("error:change", errorMessage, event.target as HTMLInputElement);
   emits("update:modelValue", value);
 };
 
-const validateValue = (value: string): boolean => {
+const validateValue = (value: string): string | undefined => {
   if (props.required === true && value === "") {
-    return false;
+    return undefined;
   }
 
   if (value === undefined) {
-    return true;
+    return undefined;
   }
 
-  if (props.maxTokenCount && value.split(" ").length > props.maxTokenCount) {
-    return false;
-  }
-  return true;
+  return new Parser().validate(value);
 };
 
-onUpdated(() => {
+onMounted(() => {
   const value: string = props.modelValue as string;
-  hasError.value = !validateValue(value);
+  const errorMessage = validateValue(value);
+  hasError.value = errorMessage !== undefined;
+  emits("error:change", errorMessage, input.value);
+  emits("update:modelValue", value);
 });
 </script>
 
@@ -71,7 +66,7 @@ onUpdated(() => {
   <div class="flex space-x-4 items-start" :class="{ 'items-center': label }">
     <label
       v-if="label"
-      :for="`x-textarea-${label.replaceAll(' ', '-').toLowerCase()}`"
+      :for="`x-text-${label.replaceAll(' ', '-').toLowerCase()}`"
       class="text-sm font-medium text-gray-700 w-1/5 text-right flex items-center justify-end space-x-2"
       :class="{ 'text-red-500': hasError }"
       ><span>{{ label }}</span>
@@ -79,19 +74,19 @@ onUpdated(() => {
         tooltip
       }}</ToolTip>
     </label>
-    <textarea
-      class="border border-gray-300 rounded-md px-2 py-1 w-full focus:ring-2 focus:ring-offset-0 focus:outline-none"
+    <input
+      class="border border-gray-300 rounded px-2 py-1 flex-grow focus:ring-2 focus:ring-offset-0 focus:outline-none font-mono"
+      ref="input"
       :class="{
+        'w-full flex-grow-0': !label,
         'border-red-500': hasError,
         'focus:ring-blue-300': !hasError,
         'focus:ring-red-300': hasError,
       }"
-      :id="`x-textarea-${label?.replaceAll(' ', '-').toLowerCase()}`"
       type="text"
-      rows="2"
+      :id="`x-text-${label?.replaceAll(' ', '-').toLowerCase()}`"
       :value="modelValue"
       @input="handleValueChange"
-    >
-    </textarea>
+    />
   </div>
 </template>

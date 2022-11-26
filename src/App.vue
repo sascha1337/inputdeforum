@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, Ref } from "vue";
+import { onBeforeMount, onMounted, ref, Ref } from "vue";
 import FramesConfigComponent from "./components/FramesConfigComponent.vue";
 import GlobalConfigComponent from "./components/GlobalConfigComponent.vue";
 import JsonConfigGenerator from "./components/JsonConfigGenerator.vue";
@@ -15,10 +15,11 @@ const userConfig: Ref<UserConfig> = ref(new UserConfig());
 const configNames: Ref<string[]> = ref(LocalStorage.getConfigNames());
 const selectedConfigName: Ref<string> = ref("");
 const isSaveNotificationVisible: Ref<boolean> = ref(false);
-const saveNotificationTimeout: Ref<number | null> = ref(null);
+const saveNotificationTimeout: Ref<ReturnType<typeof setTimeout> | null> =
+  ref(null);
 
 const onConfigChange = () => {
-  if (selectedConfigName.value) {
+  if (selectedConfigName.value !== "") {
     handleConfigSave(selectedConfigName.value);
     showSaveNotification();
   }
@@ -54,10 +55,6 @@ const handleConfigLoad = (newSelectedConfigName: string) => {
 };
 
 const handleConfigSave = (newConfigName: string) => {
-  if (newConfigName === "") {
-    alert("Please enter a name for your config");
-    return;
-  }
   LocalStorage.saveConfig(newConfigName, config.value);
   configNames.value = LocalStorage.getConfigNames();
 };
@@ -97,6 +94,12 @@ const handleConfigNameChange = (newConfigName: string) => {
 
 const handleStepIncrementChange = (newIncrement: number) => {
   userConfig.value.stepIncrement = newIncrement;
+  handleUserConfigSave();
+  showSaveNotification();
+};
+
+const handleExpressionModeChange = (newIsExpressionModeEnabled: boolean) => {
+  userConfig.value.isExpressionModeEnabled = newIsExpressionModeEnabled;
   handleUserConfigSave();
   showSaveNotification();
 };
@@ -149,7 +152,9 @@ onMounted(() => {
     <FramesConfigComponent
       :frameList="config.frames"
       :stepIncrement="userConfig.stepIncrement ?? 1"
+      :isExpressionModeEnabled="userConfig.isExpressionModeEnabled ?? false"
       @user-config:step-increment-change="handleStepIncrementChange"
+      @user-config:expression-mode-change="handleExpressionModeChange"
       @update:frameList="handleFrameListChange"
       @update:addFrameBetween="handleAddFrameBetween"
     />

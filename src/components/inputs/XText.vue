@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onUpdated, ref } from "vue";
 import ToolTip from "../ToolTip.vue";
 
 const emits = defineEmits(["update:modelValue"]);
@@ -43,6 +43,11 @@ const validateValue = (value: string): boolean => {
   }
   return true;
 };
+
+onUpdated(() => {
+  const value: string = props.modelValue as string;
+  hasError.value = !validateValue(value);
+});
 </script>
 
 <template>
@@ -58,12 +63,18 @@ const validateValue = (value: string): boolean => {
       }}</ToolTip>
     </label>
     <input
-      class="outline-0 border border-gray-300 rounded-md px-2 py-1 flex-grow"
-      :class="{ 'w-full flex-grow-0': !label, 'border-red-500': hasError }"
+      class="border border-gray-300 rounded px-2 py-1 flex-grow focus:ring-2 focus:ring-offset-0 focus:outline-none m-2"
+      :class="{
+        'w-full flex-grow-0': !label,
+        'border-red-500': hasError,
+        'focus:ring-blue-300': !hasError,
+        'focus:ring-red-300': hasError,
+      }"
       type="text"
       :id="`x-text-${label?.replaceAll(' ', '-').toLowerCase()}`"
       :value="modelValue"
       @input="handleValueChange"
+      autocomplete="off"
     />
   </div>
 </template>

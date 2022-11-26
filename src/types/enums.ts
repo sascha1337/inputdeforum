@@ -16,20 +16,20 @@ export enum AnimationMode {
 }
 
 export enum PaddingMode {
-  Border = "Border",
-  Reflection = "Reflection",
-  Zero = "Zero",
+  Border = "border",
+  Reflection = "reflection",
+  Zero = "zero",
 }
 
 export enum SamplingMode {
-  Bicubic = "Bicubic",
-  Bilinear = "Bilinear",
-  Nearest = "Nearest",
+  Bicubic = "bicubic",
+  Bilinear = "bilinear",
+  Nearest = "nearest",
 }
 
 export enum Border {
-  Warp = "Warp",
-  Replicate = "Replicate",
+  Warp = "warp",
+  Replicate = "replicate",
 }
 
 export const samplerList = [
