@@ -69,6 +69,7 @@ const validateValue = (value: string): boolean => {
       :id="`x-text-${label?.replaceAll(' ', '-').toLowerCase()}`"
       :value="modelValue"
       @input="handleValueChange"
+      autocomplete="off"
     />
   </div>
 </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, Ref, watch } from "vue";
+import { computed, onBeforeMount, ref, Ref, watch } from "vue";
 import { LocalStorage } from "../services/LocalStorage";
 import XButton from "./inputs/XButton.vue";
 import XSelect from "./inputs/XSelect.vue";
@@ -76,6 +76,7 @@ const downloadBackup = () => {
           :modelValue="selectedConfigName"
           label="Saved configs"
           :options="configNames"
+          :nullable="true"
           @update:modelValue="(newConfigName: string) => handleLoad(newConfigName)"
         ></x-select>
       </div>

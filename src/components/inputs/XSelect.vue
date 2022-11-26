@@ -20,6 +20,11 @@ defineProps({
     type: String,
     required: false,
   },
+  nullable: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
   tooltipPosition: {
     type: String,
     required: false,
@@ -44,10 +49,12 @@ defineProps({
       :class="{ 'w-full flex-grow-0': !label }"
       :id="`x-select-${label?.replaceAll(' ', '-').toLowerCase()}`"
       :value="modelValue"
+      autocomplete="off"
       @input="
         $emit('update:modelValue', ($event.target as HTMLInputElement).value)
       "
     >
+      <option v-if="nullable" placeholder="None" value="" selected>None</option>
       <option v-for="option in options" :value="option">
         {{ option }}
       </option>

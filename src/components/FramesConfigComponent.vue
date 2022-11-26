@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { Ref, ref } from "vue";
 import Frame from "../types/Frame";
 import XButton from "./inputs/XButton.vue";
 import XExpression from "./inputs/XExpression.vue";
 import XNumber from "./inputs/XNumber.vue";
 import XTextarea from "./inputs/XTextarea.vue";
+import XCheckbox from "./inputs/XCheckbox.vue";
 import ToolTip from "./ToolTip.vue";
 import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 
@@ -12,6 +13,7 @@ const emit = defineEmits([
   "update:frameList",
   "update:addFrameBetween",
   "user-config:step-increment-change",
+  "user-config:expression-mode-change",
 ]);
 
 const props = defineProps({
@@ -21,6 +23,10 @@ const props = defineProps({
   },
   stepIncrement: {
     type: Number,
+    required: true,
+  },
+  isExpressionModeEnabled: {
+    type: Boolean,
     required: true,
   },
 });
@@ -98,6 +104,10 @@ const handleErrorMessage = (
     errors.value.get(index)?.set(key, { message, input });
   }
 };
+
+const handleIsExpressionModeEnabled = (value: boolean) => {
+  emit("user-config:expression-mode-change", value);
+};
 </script>
 
 <template>
@@ -167,7 +177,7 @@ const handleErrorMessage = (
             <span class="uppercase font-bold">Angle</span>
             <ToolTip position="right">
               Operator to rotate canvas clockwise/anticlockwise in degrees per
-              frame
+              frame [-360 - 360]
             </ToolTip>
           </div>
           <div class="flex items-center space-x-2 row-span-2">
@@ -199,7 +209,8 @@ const handleErrorMessage = (
           <div class="flex items-center space-x-2 row-span-2">
             <span class="uppercase font-bold"> Noise </span>
             <ToolTip position="right">
-              Amount of graininess to add per frame for diffusion diversity
+              Amount of graininess to add per frame for diffusion diversity [0 -
+              1]
             </ToolTip>
           </div>
 
@@ -208,7 +219,7 @@ const handleErrorMessage = (
             <ToolTip position="left">
               Amount of presence of previous frame to influence next frame, also
               controls steps in the following formula [steps -
-              (strength_schedule * steps)]
+              (strength_schedule * steps)]. [min 0.0, max 1.0]
             </ToolTip>
           </div>
 
@@ -222,21 +233,22 @@ const handleErrorMessage = (
           <div class="flex items-center space-x-2">
             <span class="uppercase font-bold">3D X</span>
             <ToolTip position="right">
-              Operator to tilt canvas up/down in degrees per frame
+              Operator to tilt canvas up/down in degrees per frame [-360 - 360]
             </ToolTip>
           </div>
 
           <div class="flex items-center space-x-2">
             <span class="uppercase font-bold">3D Y</span>
             <ToolTip position="right">
-              Operator to pan canvas left/right in degrees per frame
+              Operator to pan canvas left/right in degrees per frame [-360 -
+              360]
             </ToolTip>
           </div>
 
           <div class="flex items-center space-x-2">
             <span class="uppercase font-bold">3D Z</span>
             <ToolTip position="right">
-              Operator to roll canvas clockwise/anticlockwise
+              Operator to roll canvas clockwise/anticlockwise [-360 - 360]
             </ToolTip>
           </div>
         </div>
@@ -264,54 +276,60 @@ const handleErrorMessage = (
               @update:modelValue="(newPrompt: string) => (handlePromptChange(newPrompt, index))"
             ></XTextarea>
 
-            <XExpression
+            <component
+              :is="isExpressionModeEnabled ? XExpression : XNumber"
               class="row-span-2"
               :modelValue="(frame as Frame).angle"
-              :min="0"
+              :min="-360"
               :max="360"
               :step="0.001"
               @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'angle')"
               @update:modelValue="(newAngle: number) => (handleNumberChange(newAngle, index, 'angle'))"
-            ></XExpression>
+            ></component>
 
-            <XExpression
+            <component
+              :is="isExpressionModeEnabled ? XExpression : XNumber"
               class="row-span-2"
               :modelValue="(frame as Frame).zoom"
-              :min="0"
-              :max="100"
+              :min="-10000"
+              :max="10000"
               :step="0.001"
               @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'zoom')"
               @update:modelValue="(newZoom: number) => (handleNumberChange(newZoom, index, 'zoom'))"
-            ></XExpression>
+            />
 
-            <XExpression
+            <component
+              :is="isExpressionModeEnabled ? XExpression : XNumber"
               :modelValue="(frame as Frame).translation_x"
-              :min="-100"
-              :max="100"
+              :min="-10000"
+              :max="10000"
               :step="0.001"
               @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'translation_x')"
               @update:modelValue="(newTranslationX: number) => (handleNumberChange(newTranslationX, index, 'translation_x'))"
-            ></XExpression>
+            />
 
-            <XExpression
+            <component
+              :is="isExpressionModeEnabled ? XExpression : XNumber"
               :modelValue="(frame as Frame).translation_y"
-              :min="-100"
-              :max="100"
+              :min="-10000"
+              :max="10000"
               :step="0.001"
               @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'translation_y')"
               @update:modelValue="(newTranslationY: number) => (handleNumberChange(newTranslationY, index, 'translation_y'))"
-            ></XExpression>
+            />
 
-            <XExpression
+            <component
+              :is="isExpressionModeEnabled ? XExpression : XNumber"
               :modelValue="(frame as Frame).translation_z"
-              :min="-100"
-              :max="100"
+              :min="-10000"
+              :max="10000"
               :step="0.001"
               @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'translation_z')"
               @update:modelValue="(newTranslationZ: number) => (handleNumberChange(newTranslationZ, index, 'translation_z'))"
-            ></XExpression>
+            />
 
-            <XExpression
+            <component
+              :is="isExpressionModeEnabled ? XExpression : XNumber"
               class=""
               :modelValue="(frame as Frame).noise_schedule"
               :min="0"
@@ -319,54 +337,59 @@ const handleErrorMessage = (
               :step="0.001"
               @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'noise_schedule')"
               @update:modelValue="(newNoiseSchedule: number) => (handleNumberChange(newNoiseSchedule, index, 'noise_schedule'))"
-            ></XExpression>
+            />
 
-            <XExpression
+            <component
+              :is="isExpressionModeEnabled ? XExpression : XNumber"
               class=""
               :modelValue="(frame as Frame).strength_schedule"
               :min="0"
-              :max="100"
+              :max="1"
               :step="0.001"
               @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'strength_schedule')"
               @update:modelValue="(newStrengthSchedule: number) => (handleNumberChange(newStrengthSchedule, index, 'strength_schedule'))"
-            ></XExpression>
+            />
 
-            <XExpression
+            <component
+              :is="isExpressionModeEnabled ? XExpression : XNumber"
               class=""
               :modelValue="(frame as Frame).contrast_schedule"
-              :min="0"
-              :max="100"
+              :min="-10000"
+              :max="10000"
               :step="0.001"
               @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'contrast_schedule')"
               @update:modelValue="(newContrastSchedule: number) => (handleNumberChange(newContrastSchedule, index, 'contrast_schedule'))"
-            ></XExpression>
+            />
 
-            <XExpression
+            <component
+              :is="isExpressionModeEnabled ? XExpression : XNumber"
               :modelValue="(frame as Frame).rotation_3d_x"
-              :min="-100"
-              :max="100"
+              :min="-360"
+              :max="360"
               :step="0.001"
               @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'rotation_3d_x')"
               @update:modelValue="(newRotation3dX: number) => (handleNumberChange(newRotation3dX, index, 'rotation_3d_x'))"
-            ></XExpression>
+            />
 
-            <XExpression
+            <component
+              :is="isExpressionModeEnabled ? XExpression : XNumber"
               :modelValue="(frame as Frame).rotation_3d_y"
-              :min="-100"
-              :max="100"
+              :min="-360"
+              :max="360"
               :step="0.001"
               @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'rotation_3d_y')"
               @update:modelValue="(newRotation3dY: number) => (handleNumberChange(newRotation3dY, index, 'rotation_3d_y'))"
-            ></XExpression>
+            />
 
-            <XExpression
+            <component
+              :is="isExpressionModeEnabled ? XExpression : XNumber"
               :modelValue="(frame as Frame).rotation_3d_z"
-              :min="-100"
-              :max="100"
+              :min="-360"
+              :max="360"
               :step="0.001"
               @error:change="(newError: string, input: HTMLInputElement) => handleErrorMessage(newError, input, index, 'rotation_3d_z')"
               @update:modelValue="(newRotation3dZ: number) => (handleNumberChange(newRotation3dZ, index, 'rotation_3d_z'))"
-            ></XExpression>
+            />
             <div class="flex justify-end items-center col-span-3 space-x-4">
               <!-- add frame -->
               <XButton
@@ -389,23 +412,32 @@ const handleErrorMessage = (
       </div>
     </div>
 
-    <div class="flex justify-end items-center mt-5 space-x-4 w-full">
-      <XNumber
-        class="flex-grow"
-        :modelValue="stepIncrement"
-        :min="1"
-        :max="100"
-        :step="1"
-        :required="true"
-        label="Steps increment"
-        @update:modelValue="(newStepIncrement: number) => $emit('user-config:step-increment-change', newStepIncrement)"
-      ></XNumber>
-      <XButton @click="sortFramesById" title="Sort frames by ID">Sort</XButton>
-      <XButton
-        @click="reorderFrames"
-        title="Reindex frames using steps increment"
-        >Reindex</XButton
-      >
+    <div class="flex flex-col space-y-4 p-2 mt-5">
+      <div class="flex justify-end items-center space-x-4 w-full">
+        <XNumber
+          class="flex-grow"
+          :modelValue="stepIncrement"
+          :min="1"
+          :max="100"
+          :step="1"
+          :required="true"
+          label="Steps increment"
+          @update:modelValue="(newStepIncrement: number) => $emit('user-config:step-increment-change', newStepIncrement)"
+        ></XNumber>
+        <XButton @click="sortFramesById" title="Sort frames by ID"
+          >Sort</XButton
+        >
+        <XButton
+          @click="reorderFrames"
+          title="Reindex frames using steps increment"
+          >Reindex</XButton
+        >
+      </div>
+      <XCheckbox
+        :model-value="isExpressionModeEnabled"
+        label="Math expressions mode"
+        @update:model-value="handleIsExpressionModeEnabled"
+      />
     </div>
   </div>
 </template>
