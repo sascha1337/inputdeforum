@@ -70,6 +70,9 @@ const handleAddFrameBetween = (index: number) => {
 };
 
 const handleDelete = (index: number) => {
+  if (props.frameList.length === 1) {
+    return;
+  }
   props.frameList.splice(index, 1);
   emit("update:frameList", props.frameList);
 };
