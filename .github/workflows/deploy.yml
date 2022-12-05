@@ -1,8 +1,12 @@
 name: Deploy to Github Pages
 on:
-  push:
+  workflow_run:
+    workflows: ["Test"]
+    types:
+      - completed
     branches:
       - main
+
 jobs:
   gh-pages-deploy:
     name: Deploying to Github Pages
@@ -12,6 +16,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+          cache: "npm"
+          cache-dependency-path: package-lock.json
       - name: Install packages
         run: npm ci
       - name: Set Creds
