@@ -122,8 +122,8 @@ export const basicExpressionParsingStubs = [
     expression: "2.03232",
     expected: [],
   },
-  {
-    expression: "2+2+2",
-    expected: [],
-  },
+  // {
+  //   expression: "2+2+2",
+  //   expected: [],
+  // },
 ];
