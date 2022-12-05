@@ -9,6 +9,7 @@ import Config from "./types/Config";
 import Frame from "./types/Frame";
 import UserConfig from "./types/UserConfig";
 import SaveNotification from "./components/SaveNotification.vue";
+import MusicPlayer from "./components/MusicPlayer.vue";
 
 const config: Ref<Config> = ref(new Config());
 const userConfig: Ref<UserConfig> = ref(new UserConfig());
@@ -104,6 +105,12 @@ const handleExpressionModeChange = (newIsExpressionModeEnabled: boolean) => {
   showSaveNotification();
 };
 
+const handleAddFrameAt = (index: number) => {
+  config.value.frames.push(new Frame(index));
+  config.value.frames.sort((a, b) => a.id - b.id);
+  onConfigChange();
+};
+
 onMounted(() => {
   userConfig.value = LocalStorage.getUserConfig() ?? new UserConfig();
 });
@@ -149,6 +156,7 @@ onMounted(() => {
       :config="config"
       @update:configValue="handleConfigChange"
     />
+    <MusicPlayer @update:addFrameAt="handleAddFrameAt" />
     <FramesConfigComponent
       :frameList="config.frames"
       :stepIncrement="userConfig.stepIncrement ?? 1"
